@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+	<head>
+		<title>Rasende Roboter</title>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="js/login.js"></script>
+	</head>
+	<body onload="init()">
+		<header>
+			<h1>Bienvenue sur Rasende Roboter, le jeu de robots en ligne</h1>
+		</header>
+		<section>
+			<nav>
+				<form method="post" action="" id="nouvellePartie">
+					<label for="idGame">Entrez un nom pour la nouvelle partie : </label><input type="text" name="idGame" id="idGame"/>
+					<label for="login">Entrez votre nom : </label><input type="text" name="login" id="login"/>
+					<input type="submit" value="Nouveau jeu !" />
+				</form>
+				<ul id="lesParties"/>
+			</nav>
+			<section id="detailPartie">
+				
+			</section>
+		</section>
+		<footer>
+			Mini-projet IHM de M2 P GI...
+		</footer>
+	</body>
+</html>
+
