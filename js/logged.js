@@ -37,5 +37,73 @@ function init() {
 	socket.emit ('identification', 	{ login	: document.getElementById('login').value
 									, idGame: document.getElementById('idGame').value}
 				);
+
+	XHR('GET', '/' + document.getElementById('idGame').value, {
+	
+		onload: function() {
+			var data = JSON.parse(this.responseText);
+			console.log('data', data);
+			
+			var table = document.createElement('table');
+			table.className = 'plateau';
+			
+			var robots = {};
+			data.robots.forEach(function(robot) {
+				if (!(robot.line in robots)) {
+					robots[robot.line] = {};
+				}
+				robots[robot.line][robot.column] = robot;
+			});
+			
+			var tbody = document.createElement('tbody');
+			for (var ligne = 0; ligne < 16; ligne++) {
+				var tr = document.createElement('tr');
+				for (var colonne = 0; colonne < 16; colonne++) {
+					var td = document.createElement('td');
+					var casePlateau = data.board[ligne][colonne];
+					
+					console.log(ligne, colonne, casePlateau);
+					
+					var classes = [];
+					if (casePlateau.g) {
+						classes.push('g');					
+					}
+					if (casePlateau.h) {
+						classes.push('h');
+					}
+					if (casePlateau.b) {
+						classes.push('b');
+					}
+					if (casePlateau.d) {
+						classes.push('d');
+					}
+					if (ligne == data.target.l && colonne == data.target.c) {
+						classes.push('cible');
+						classes.push(data.target.t);
+					}
+					
+					if (classes.length > 0) {
+						td.className = classes.join(' ');
+					}
+					
+					if (ligne in robots && colonne in robots[ligne]) {
+						var robot = robots[ligne][colonne];
+						var robotSpan = document.createElement('span');
+						robotSpan.className = 'robot ' + robot.color;
+						td.appendChild(robotSpan);
+					}
+					
+					tr.appendChild(td);
+				}
+				tbody.appendChild(tr);
+			}
+			table.appendChild(tbody);
+			
+			
+			
+			document.getElementById('partie').appendChild(table);
+		}
+		
+	});
 }
 

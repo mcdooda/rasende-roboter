@@ -1,0 +1,65 @@
+/* plateau */
+table.plateau {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+/* case */
+table.plateau tr td {
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0;
+}
+
+/* murs */
+table.plateau tr td.g {
+	border-left: 1px solid black;
+}
+table.plateau tr td.h {
+	border-top: 1px solid black;
+}
+table.plateau tr td.b {
+	border-bottom: 1px solid black;
+}
+table.plateau tr td.d {
+	border-right: 1px solid black;
+}
+
+/* cibles */
+table.plateau tr td.cible.blue {
+	background-color: blue;
+}
+table.plateau tr td.cible.red {
+	background-color: red;
+}
+table.plateau tr td.cible.green {
+	background-color: green;
+}
+table.plateau tr td.cible.yellow {
+	background-color: yellow;
+}
+
+/* robot */
+table.plateau tr td span.robot {
+	display: block;
+	border-radius: 10px;
+	width: 16px;
+	height: 16px;
+	margin: auto;
+	border: 1px solid black;
+}
+table.plateau tr td span.robot.blue {
+	background-color: blue;
+}
+table.plateau tr td span.robot.red {
+	background-color: red;
+}
+table.plateau tr td span.robot.green {
+	background-color: green;
+}
+table.plateau tr td span.robot.yellow {
+	background-color: yellow;
+}
+
