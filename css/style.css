@@ -14,6 +14,9 @@ table.plateau tr td {
 }
 
 /* murs */
+table.plateau tr td {
+	border: 1px dotted #ddd;
+}
 table.plateau tr td.g {
 	border-left: 1px solid black;
 }
@@ -25,6 +28,14 @@ table.plateau tr td.b {
 }
 table.plateau tr td.d {
 	border-right: 1px solid black;
+}
+
+/* case accessible */
+table.plateau tr td.accessible {
+	background-color: lightgray;
+}
+table.plateau tr td.destination {
+	background-color: gray;
 }
 
 /* cibles */
