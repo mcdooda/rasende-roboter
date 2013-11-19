@@ -1,11 +1,11 @@
 /* plateau */
-table.plateau {
+.plateau {
 	border: 1px solid black;
 	border-collapse: collapse;
 }
 
 /* case */
-table.plateau tr td {
+.plateau td {
 	width: 20px;
 	height: 20px;
 	text-align: center;
@@ -14,63 +14,75 @@ table.plateau tr td {
 }
 
 /* murs */
-table.plateau tr td {
-	border: 1px dotted #ddd;
+.plateau td {
+	border: 1px dotted #bdc3c7;
 }
-table.plateau tr td.g {
+.plateau td.g {
 	border-left: 1px solid black;
 }
-table.plateau tr td.h {
+.plateau td.h {
 	border-top: 1px solid black;
 }
-table.plateau tr td.b {
+.plateau td.b {
 	border-bottom: 1px solid black;
 }
-table.plateau tr td.d {
+.plateau td.d {
 	border-right: 1px solid black;
 }
 
 /* case accessible */
-table.plateau tr td.accessible {
-	background-color: lightgray;
+.plateau td.accessible {
+	background-color: #ecf0f1;
 }
-table.plateau tr td.destination {
-	background-color: gray;
+.plateau td.destination {
+	background-color: #bdc3c7;
 }
 
 /* cibles */
-table.plateau tr td.cible.blue {
-	background-color: blue;
+.plateau td.cible.blue {
+	background-color: #3498db;
 }
-table.plateau tr td.cible.red {
-	background-color: red;
+.plateau td.cible.red {
+	background-color: #e74c3c;
 }
-table.plateau tr td.cible.green {
-	background-color: green;
+.plateau td.cible.green {
+	background-color: #2ecc71;
 }
-table.plateau tr td.cible.yellow {
-	background-color: yellow;
+.plateau td.cible.yellow {
+	background-color: #f1c40f;
 }
 
 /* robot */
-table.plateau tr td span.robot {
+.plateau .robot {
 	display: block;
 	border-radius: 10px;
-	width: 16px;
-	height: 16px;
+	width: 8px;
+	height: 8px;
 	margin: auto;
-	border: 1px solid black;
+	padding: 4px;
+	border: 1px solid #34495e;
 }
-table.plateau tr td span.robot.blue {
-	background-color: blue;
+.plateau .robot.blue {
+	background-color: #3498db;
 }
-table.plateau tr td span.robot.red {
-	background-color: red;
+.plateau .robot.red {
+	background-color: #e74c3c;
 }
-table.plateau tr td span.robot.green {
-	background-color: green;
+.plateau .robot.green {
+	background-color: #2ecc71;
 }
-table.plateau tr td span.robot.yellow {
-	background-color: yellow;
+.plateau .robot.yellow {
+	background-color: #f1c40f;
 }
+
+/* robot selectionné */
+.plateau .robot.selection {
+	padding: 2px;
+	border-width: 3px;
+}
+.plateau .robot.deplace {
+	padding: 0;
+	border-width: 5px;
+}
+
 
