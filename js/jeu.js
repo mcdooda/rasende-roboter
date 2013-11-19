@@ -1,3 +1,5 @@
+var proposition = [];
+
 function afficherPlateau(plateau) {
 	var table = document.createElement('table');
 	table.className = 'plateau';
@@ -41,6 +43,8 @@ function afficherPlateau(plateau) {
 				var robot = robots[ligne][colonne];
 				var robotSpan = document.createElement('span');
 				robotSpan.className = 'robot ' + robot.color;
+				robotSpan.setAttribute('data-colonne-origine', colonne);
+				robotSpan.setAttribute('data-ligne-origine', ligne);
 				
 				td.appendChild(robotSpan);
 			}
@@ -68,10 +72,25 @@ function selectionnerRobot(robotElement) {
 }
 
 function deplacerRobot(robotElement, caseElement) {
+	var couleurRobot = getCouleur(robotElement);
 	var dernierDeplace = getDernierRobotDeplace();
 	if (dernierDeplace != null) {
 		util.removeClass(dernierDeplace, 'dernier-deplace');
 	}
+	
+	if (dernierDeplace != robotElement) {
+		proposition.push({
+			command: 'select',
+			robot: couleurRobot
+		});
+	}
+	
+	var coordonnees = getCoordonneesCase(caseElement);
+	proposition.push({
+		command: 'move',
+		line:    coordonnees.ligne,
+		column:  coordonnees.colonne
+	});
 
 	util.moveTo(robotElement, caseElement);
 	util.addClass(robotElement, 'deplace');
@@ -79,8 +98,45 @@ function deplacerRobot(robotElement, caseElement) {
 	supprimerClicRobotsDeplaces();
 	supprimerClicDestinations();
 	masquerCasesAccessibles();
-	afficherCasesAccessibles(robotElement);
-	ajouterClicDestinations();
+	
+	if (util.hasClass(caseElement, 'cible') && getCouleur(caseElement) == couleurRobot) {
+		supprimerClicRobots();
+		supprimerTouches();
+		
+		XHR('POST', '/proposition', {
+		
+			variables: {
+				proposition: JSON.stringify(proposition),
+				idGame: getIdGame(),
+				login: getLogin()
+			},
+			
+			onload: function() {
+				console.log(this.responseText);
+			}
+			
+		});
+		
+	} else {
+		afficherCasesAccessibles(robotElement);
+		ajouterClicDestinations();
+	}
+}
+
+function getCouleur(element) {
+	var couleurs = [
+		'red',
+		'green',
+		'blue',
+		'yellow'
+	].filter(function(couleur) {
+		return util.hasClass(element, couleur);
+	});
+	if (couleurs.length > 0) {
+		return couleurs[0];
+	} else {
+		return null;
+	}
 }
 
 function getRobotSelectionne() {
@@ -116,7 +172,14 @@ function supprimerClicRobotsDeplaces() {
 	}
 }
 
-function coordonneesCase(td) {
+function supprimerClicRobots() {
+	var L = document.querySelectorAll('.plateau .robot');
+	for (var i = 0; i < L.length; i++) {
+		L[i].removeEventListener('click', clicRobot);
+	}
+}
+
+function getCoordonneesCase(td) {
 	return {
 		ligne:   parseInt(td.getAttribute('data-ligne')),
 		colonne: parseInt(td.getAttribute('data-colonne'))
@@ -141,7 +204,7 @@ function deplacementPossible(td, direction) {
 		if (util.hasClass(td, 'g')) {
 			return false;
 		} else {
-			var coordonnees = coordonneesCase(td);
+			var coordonnees = getCoordonneesCase(td);
 			var caseGauche = getCase(coordonnees.ligne, coordonnees.colonne - 1);
 			return caseGauche != null && !util.hasClass(caseGauche, 'd') && !contientRobot(caseGauche);
 		}
@@ -151,7 +214,7 @@ function deplacementPossible(td, direction) {
 		if (util.hasClass(td, 'h')) {
 			return false;
 		} else {
-			var coordonnees = coordonneesCase(td);
+			var coordonnees = getCoordonneesCase(td);
 			var caseHaut = getCase(coordonnees.ligne - 1, coordonnees.colonne);
 			return caseHaut != null && !util.hasClass(caseHaut, 'b') && !contientRobot(caseHaut);
 		}
@@ -161,7 +224,7 @@ function deplacementPossible(td, direction) {
 		if (util.hasClass(td, 'b')) {
 			return false;
 		} else {
-			var coordonnees = coordonneesCase(td);
+			var coordonnees = getCoordonneesCase(td);
 			var caseBas = getCase(coordonnees.ligne + 1, coordonnees.colonne);
 			return caseBas != null && !util.hasClass(caseBas, 'h') && !contientRobot(caseBas);
 		}
@@ -171,7 +234,7 @@ function deplacementPossible(td, direction) {
 		if (util.hasClass(td, 'd')) {
 			return false;
 		} else {
-			var coordonnees = coordonneesCase(td);
+			var coordonnees = getCoordonneesCase(td);
 			var caseDroite = getCase(coordonnees.ligne, coordonnees.colonne + 1);
 			return caseDroite != null && !util.hasClass(caseDroite, 'g') && !contientRobot(caseDroite);
 		}
@@ -200,7 +263,7 @@ function masquerCasesAccessibles() {
 function afficherCasesAccessibles(robotElement) {
 
 	var caseCourante = robotElement.parentNode;
-	var coordonnees = coordonneesCase(caseCourante);
+	var coordonnees = getCoordonneesCase(caseCourante);
 	
 	var c, ligne, colonne;
 	
@@ -316,37 +379,90 @@ function deplacerRobotDirection(direction) {
 	}
 }
 
-function ajouterTouches() {
-	document.addEventListener('keypress', function(e) {
-		switch (e.keyCode || e.charCode) {
-			case 32: // espace
-			console.log('espace');
-			selectionnerRobotSuivant();
-			break;
-			
-			case 37: // gauche
-			console.log('gauche');
-			deplacerRobotDirection('g');
-			break;
-			
-			case 38: // haut
-			console.log('haut');
-			deplacerRobotDirection('h');
-			break;
-			
-			case 40: // bas
-			console.log('bas');
-			deplacerRobotDirection('b');
-			break;
-			
-			case 39: // droite
-			console.log('droite');
-			deplacerRobotDirection('d');
-			break;
-		}
-	});
+function appuiTouche(e) {
+	switch (e.keyCode || e.charCode) {
+		case 32: // espace
+		console.log('espace');
+		selectionnerRobotSuivant();
+		break;
+		
+		case 37: // gauche
+		console.log('gauche');
+		deplacerRobotDirection('g');
+		break;
+		
+		case 38: // haut
+		console.log('haut');
+		deplacerRobotDirection('h');
+		break;
+		
+		case 40: // bas
+		console.log('bas');
+		deplacerRobotDirection('b');
+		break;
+		
+		case 39: // droite
+		console.log('droite');
+		deplacerRobotDirection('d');
+		break;
+	}
 }
 
+function ajouterTouches() {
+	document.addEventListener('keypress', appuiTouche);
+}
 
+function supprimerTouches() {
+	document.removeEventListener('keypress', appuiTouche);
+}
+
+function reinitialiserRobots() {
+	var L = document.querySelectorAll('.plateau .robot');
+	for (var i = 0; i < L.length; i++) {
+		[
+			'deplace',
+			'dernier-deplace',
+			'selection'
+		].forEach(function(class_) {
+			util.removeClass(L[i], class_);
+		});
+		util.moveTo(L[i], getCase(L[i].getAttribute('data-ligne-origine'), L[i].getAttribute('data-colonne-origine')));
+	}
+}
+
+function recommencer() {
+	proposition.length = 0;
+	masquerCasesAccessibles();
+	reinitialiserRobots();
+	supprimerClicRobots();
+	supprimerClicDestinations();
+	supprimerTouches();
+	ajouterClicRobots();
+	ajouterTouches();
+}
+
+function getNombreMouvements(proposition) {
+	return proposition.filter(function(p) {
+		return p.command == 'move';
+	}).length;
+}
+
+function afficherScore(solution) {
+	var scoreElement = document.querySelector('#lesParticipants li[data-nom="' + solution.player + '"] .score');
+	var score = getNombreMouvements(solution.proposition);
+	scoreElement.innerHTML = '(' + score + ' mouvements)';
+	scoreElement.setAttribute('data-score', score);
+}
+
+function afficherGagnant() {
+	var L = document.querySelectorAll('#lesParticipants span[data-score]');
+	var imin = 0;
+	for (var i = 1; i < L.length; i++) {
+		if (parseInt(L[i].getAttribute('data-score')) < parseInt(L[imin].getAttribute('data-score'))) {
+			imin = i;
+		}
+	}
+	util.addClass(L[imin], 'gagnant');
+}
 
 

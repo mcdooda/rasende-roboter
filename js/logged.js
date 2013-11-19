@@ -11,6 +11,14 @@ var XHR = function(method, ad, params) {
 	xhr.send( str );
 }
 
+function getLogin() {
+	return document.getElementById('login').value;
+}
+
+function getIdGame() {
+	return document.getElementById('idGame').value;
+}
+
 function init() {
 	// Connect to the SocketIO server to retrieve ongoing games.
 	socket = io.connect();
@@ -18,27 +26,44 @@ function init() {
 		 var ul = document.getElementById('lesParticipants');
 		 ul.innerHTML='';
 		 for(p in data.participants) {
-			 var li = document.createElement('li'); 
+			 var li = document.createElement('li');
+			 li.setAttribute('data-nom', data.participants[p]);
 			 ul.appendChild( li );
-			 li.appendChild( document.createTextNode( data.participants[p] ) );
+			 li.appendChild( document.createTextNode( data.participants[p] + " " ) );
+			 var score = document.createElement('span');
+			 score.className = 'score';
+			 li.appendChild(score);
 			}
 		});
 	socket.on('FinalCountDown'	, function(data) {
 		 var ms   = data.FinalCountDown;
 		 console.log("FinalCountDown : " + ms);
+		 
+		 var iv = setInterval(function() {
+		 	ms -= 1000;
+		 	if (ms <= 0) {
+		 		clearInterval(iv);
+		 		document.getElementById('final-count-down').innerHTML = 'time over';
+		 	} else {
+		 		document.getElementById('final-count-down').innerHTML = parseInt(ms / 1000) + 's';
+		 	}
+		 }, 1000);
+		 
 		});
 	socket.on('TerminateGame'	, function(data) {
 		 h1 = document.querySelector('body > header > h1');
 		 h1.innerHTML += ' est terminée !';
+		 afficherGagnant();
 		});
 	socket.on('solutions'		, function(data) {
 		 console.log("Solutions are :\n"+JSON.stringify(data.solutions));
+		 data.solutions.forEach(afficherScore);
 		});
-	socket.emit ('identification', 	{ login	: document.getElementById('login').value
-									, idGame: document.getElementById('idGame').value}
+	socket.emit ('identification', 	{ login	: getLogin()
+									, idGame: getIdGame()}
 				);
 
-	XHR('GET', '/' + document.getElementById('idGame').value, {
+	XHR('GET', '/' + getIdGame(), {
 	
 		onload: function() {
 			var data = JSON.parse(this.responseText);

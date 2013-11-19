@@ -1,3 +1,8 @@
+/* participants */
+#lesParticipants .score.gagnant {
+	border: 1px dashed #27ae60;
+}
+
 /* plateau */
 .plateau {
 	border: 1px solid black;
