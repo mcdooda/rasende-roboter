@@ -380,29 +380,29 @@ function deplacerRobotDirection(direction) {
 }
 
 function appuiTouche(e) {
+	console.log(e.keyCode || e.charCode);
 	switch (e.keyCode || e.charCode) {
+		case 27: // echap
+		recommencer();
+		break;
+	
 		case 32: // espace
-		console.log('espace');
 		selectionnerRobotSuivant();
 		break;
 		
 		case 37: // gauche
-		console.log('gauche');
 		deplacerRobotDirection('g');
 		break;
 		
 		case 38: // haut
-		console.log('haut');
 		deplacerRobotDirection('h');
 		break;
 		
 		case 40: // bas
-		console.log('bas');
 		deplacerRobotDirection('b');
 		break;
 		
 		case 39: // droite
-		console.log('droite');
 		deplacerRobotDirection('d');
 		break;
 	}
