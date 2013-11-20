@@ -1,3 +1,33 @@
+html {
+	height: 100%;
+}
+
+body {
+	display: flex;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+@media(orientation: portrait) {
+	body {
+		flex-direction: column;
+	}
+}
+
+body > section {
+	padding: 0;
+	margin: 0;
+}
+
+#partie {
+	flex: 1 1 0;
+}
+
+#infos {
+	flex: 1 1 0;
+}
+
 /* participants */
 #lesParticipants .score.gagnant {
 	border: 1px dashed #27ae60;
@@ -7,12 +37,14 @@
 .plateau {
 	border: 1px solid black;
 	border-collapse: collapse;
+	margin: auto;
+	width: 100%;
 }
 
 /* case */
 .plateau td {
-	width: 20px;
-	height: 20px;
+	width: 6.25%;
+	height: 100%;
 	text-align: center;
 	vertical-align: middle;
 	padding: 0;
@@ -60,12 +92,14 @@
 /* robot */
 .plateau .robot {
 	display: block;
-	border-radius: 10px;
-	width: 8px;
-	height: 8px;
+	width: 30%;
+	height: 30%;
 	margin: auto;
+	border-color: #34495e;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 100%;
 	padding: 4px;
-	border: 1px solid #34495e;
 }
 .plateau .robot.blue {
 	background-color: #3498db;
@@ -82,12 +116,12 @@
 
 /* robot selectionné */
 .plateau .robot.selection {
-	padding: 2px;
 	border-width: 3px;
+	padding: 2px;
 }
 .plateau .robot.deplace {
-	padding: 0;
 	border-width: 5px;
+	padding: 0;
 }
 
 

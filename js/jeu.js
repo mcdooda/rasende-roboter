@@ -56,6 +56,24 @@ function afficherPlateau(plateau) {
 	table.appendChild(tbody);
 	
 	document.getElementById('partie').appendChild(table);
+	
+	var redimensionner = function() {
+		var partie = document.getElementById('partie');
+		if (partie.offsetWidth < partie.offsetHeight) {
+			table.style.width = partie.offsetWidth + 'px';
+			table.style.height = partie.offsetWidth + 'px';
+		} else {
+			table.style.width = partie.offsetHeight + 'px';
+			table.style.height = partie.offsetHeight + 'px';
+		}
+		var largeurCase = parseInt(table.querySelector('td').offsetWidth);
+		var L = table.querySelectorAll('tr');
+		for (var i = 0; i < L.length; i++) {
+			L[i].style.height = largeurCase + 'px';
+		}
+	};
+	redimensionner();
+	addEventListener('resize', redimensionner);
 }
 
 function clicRobot() {

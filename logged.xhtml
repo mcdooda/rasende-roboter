@@ -12,26 +12,23 @@
 		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/style.css" />
 	</head>
 	<body onload="init()">
-		<header>
-			<h1>Partie __IDGAME__ __STATE__</h1>
-			<p>Vous êtes connecté en tant que __LOGIN__</p>
-			<input id="login" type="hidden" value="__LOGIN__"/>
-			<input id="idGame" type="hidden" value="__IDGAME__"/>
-		</header>
-		<section>
-			<nav>
-				<ul id="lesParticipants" />
-			</nav>
-			<section id="partie">
-				
+		<section id="partie"></section>
+		<section id="infos">
+			<header>
+				<h1>Partie __IDGAME__ __STATE__</h1>
+				<p>Vous êtes connecté en tant que __LOGIN__</p>
+				<input id="login" type="hidden" value="__LOGIN__"/>
+				<input id="idGame" type="hidden" value="__IDGAME__"/>
+			</header>
+			<section>
+				<nav>
+					<ul id="lesParticipants" />
+				</nav>
+				<button onclick="recommencer();this.blur();">Recommencer</button>
+				<br />
+				Final count down: <span id="final-count-down"></span>
 			</section>
-			<button onclick="recommencer();this.blur();">Recommencer</button>
-			<br />
-			Final count down: <span id="final-count-down"></span>
 		</section>
-		<footer>
-			Mini-projet IHM de M2 P GI...
-		</footer>
 	</body>
 </html>
 
