@@ -176,24 +176,38 @@ function afficherSelection(robotElement) {
 	util.addClass(robotElement, 'selection');
 }
 
+function drag(evt) {
+	evt.dataTransfer.setData("Text",evt.target.id);
+}
+
 function ajouterClicRobots() {
 	var L = document.querySelectorAll('#plateau .robot');
 	for (var i = 0; i < L.length; i++) {
-		L[i].addEventListener('click', clicRobot);
+		L[i].addEventListener('mousedown', clicRobot);
+		L[i].addEventListener('touchstart', clicRobot);
+		L[i].setAttribute('draggable','true');
+		L[i].setAttribute('id',i);
+		L[i].addEventListener('dragstart', drag);
 	}
 }
 
 function supprimerClicRobotsDeplaces() {
 	var L = document.querySelectorAll('#plateau .robot.deplace:not(.dernier-deplace)');
 	for (var i = 0; i < L.length; i++) {
-		L[i].removeEventListener('click', clicRobot);
+		L[i].removeEventListener('mousedown', clicRobot);
+		L[i].removeEventListener('touchstart', clicRobot);
+		L[i].setAttribute('draggable','false');
+		L[i].removeEventListener('dragstart', drag);
 	}
 }
 
 function supprimerClicRobots() {
 	var L = document.querySelectorAll('#plateau .robot');
 	for (var i = 0; i < L.length; i++) {
-		L[i].removeEventListener('click', clicRobot);
+		L[i].removeEventListener('mousedown', clicRobot);
+		L[i].removeEventListener('touchstart', clicRobot);
+		L[i].setAttribute('draggable','false');
+		L[i].removeEventListener('dragstart', drag);
 	}
 }
 
@@ -363,17 +377,40 @@ function clicDestination() {
 	deplacerRobot(selection, this);
 }
 
+function dragOverEnter(evt) {
+	evt.preventDefault();
+	evt.dataTransfert.dropEffect = "copy";
+}
+
+
+function drop(evt) {
+	evt.stopPropagation();
+	evt.preventDefault();
+	var selection = getRobotSelectionne();
+	deplacerRobot(selection, evt.target);
+	return false;
+}
+
+
 function supprimerClicDestinations() {
 	var L = document.querySelectorAll('#plateau .destination');
 	for (var i = 0; i < L.length; i++) {
-		L[i].removeEventListener('click', clicDestination);
+		L[i].removeEventListener('mousedown', clicDestination);
+		L[i].removeEventListener('touchstart', clicDestination);
+		L[i].removeEventListener('dragover',dragOverEnter);
+		L[i].removeEventListener('draenter',dragOverEnter);
+		L[i].removeEventListener('drop',clicDestination);
 	}
 }
 
 function ajouterClicDestinations() {
 	var L = document.querySelectorAll('#plateau .destination');
 	for (var i = 0; i < L.length; i++) {
-		L[i].addEventListener('click', clicDestination);
+		L[i].addEventListener('mousedown', clicDestination);
+		L[i].addEventListener('touchstart', clicDestination);
+		L[i].addEventListener('dragover',dragOverEnter);
+		L[i].addEventListener('dragenter',dragOverEnter);
+		L[i].addEventListener('drop',clicDestination);
 	}
 }
 
