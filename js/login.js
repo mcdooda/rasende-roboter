@@ -23,7 +23,6 @@ function init() {
 	
 	document.getElementById('nouvellePartie').addEventListener('submit', function(e) {
 		if (document.getElementById('login').value != '' && document.getElementById('idGame').value == '') {
-			console.log('login=', document.getElementById('login').value);
 			document.getElementById('champLogin').style.display = 'none';
 			document.getElementById('champIdGame').style.display = 'block';
 			document.getElementById('idGame').focus();

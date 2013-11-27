@@ -2,7 +2,7 @@ var proposition = [];
 
 function afficherPlateau(plateau) {
 	var table = document.createElement('table');
-	table.className = 'plateau';
+	table.setAttribute('id', 'plateau');
 	
 	var robots = {};
 	plateau.robots.forEach(function(robot) {

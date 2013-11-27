@@ -9,6 +9,7 @@
 		<script src="js/jeu.js"></script>
 		<script src="js/logged.js"></script>
 		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/logged.css" />
+		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/plateau.css" />
 	</head>
 	<body onload="init()">
 		<section id="partie"></section>
@@ -25,8 +26,13 @@
 				</nav>
 				<button onclick="recommencer();this.blur();">Recommencer</button>
 				<br />
-				Final count down: <span id="final-count-down"></span>
+				<p id="count">
+					Final count down: <span id="final-count-down"></span>
+				</p>
 			</section>
+			<footer>
+				Actuce : Naviguez entre les robots avec la barre d'espace, et déplacez-les avec les touches directionnelles.
+			</footer>
 		</section>
 	</body>
 </html>
