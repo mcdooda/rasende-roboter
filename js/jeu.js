@@ -158,11 +158,11 @@ function getCouleur(element) {
 }
 
 function getRobotSelectionne() {
-	return document.querySelector('.plateau .robot.selection');
+	return document.querySelector('#plateau .robot.selection');
 }
 
 function getDernierRobotDeplace() {
-	return document.querySelector('.plateau .robot.dernier-deplace');
+	return document.querySelector('#plateau .robot.dernier-deplace');
 }
 
 function masquerSelection() {
@@ -177,21 +177,21 @@ function afficherSelection(robotElement) {
 }
 
 function ajouterClicRobots() {
-	var L = document.querySelectorAll('.plateau .robot');
+	var L = document.querySelectorAll('#plateau .robot');
 	for (var i = 0; i < L.length; i++) {
 		L[i].addEventListener('click', clicRobot);
 	}
 }
 
 function supprimerClicRobotsDeplaces() {
-	var L = document.querySelectorAll('.plateau .robot.deplace:not(.dernier-deplace)');
+	var L = document.querySelectorAll('#plateau .robot.deplace:not(.dernier-deplace)');
 	for (var i = 0; i < L.length; i++) {
 		L[i].removeEventListener('click', clicRobot);
 	}
 }
 
 function supprimerClicRobots() {
-	var L = document.querySelectorAll('.plateau .robot');
+	var L = document.querySelectorAll('#plateau .robot');
 	for (var i = 0; i < L.length; i++) {
 		L[i].removeEventListener('click', clicRobot);
 	}
@@ -263,7 +263,7 @@ function deplacementPossible(td, direction) {
 }
 
 function masquerCasesAccessibles() {
-	var L = document.querySelectorAll('.plateau .accessible');
+	var L = document.querySelectorAll('#plateau .accessible');
 	for (var i = 0; i < L.length; i++) {
 		[
 			'accessible',
@@ -364,21 +364,21 @@ function clicDestination() {
 }
 
 function supprimerClicDestinations() {
-	var L = document.querySelectorAll('.plateau .destination');
+	var L = document.querySelectorAll('#plateau .destination');
 	for (var i = 0; i < L.length; i++) {
 		L[i].removeEventListener('click', clicDestination);
 	}
 }
 
 function ajouterClicDestinations() {
-	var L = document.querySelectorAll('.plateau .destination');
+	var L = document.querySelectorAll('#plateau .destination');
 	for (var i = 0; i < L.length; i++) {
 		L[i].addEventListener('click', clicDestination);
 	}
 }
 
 function selectionnerRobotSuivant() {
-	var L = document.querySelectorAll('.plateau .robot:not(.deplace), .plateau .robot.dernier-deplace');
+	var L = document.querySelectorAll('#plateau .robot:not(.deplace), #plateau .robot.dernier-deplace');
 	var selection = getRobotSelectionne();
 	if (selection != null) {
 		var index = Array.prototype.indexOf.call(L, selection);
@@ -391,7 +391,7 @@ function selectionnerRobotSuivant() {
 
 function deplacerRobotDirection(direction) {
 	var selection = getRobotSelectionne();
-	var destination = document.querySelector('.plateau .destination-' + direction);
+	var destination = document.querySelector('#plateau .destination-' + direction);
 	if (selection != null && destination != null) {
 		deplacerRobot(selection, destination);
 	}
@@ -435,7 +435,7 @@ function supprimerTouches() {
 }
 
 function reinitialiserRobots() {
-	var L = document.querySelectorAll('.plateau .robot');
+	var L = document.querySelectorAll('#plateau .robot');
 	for (var i = 0; i < L.length; i++) {
 		[
 			'deplace',
