@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 	<head>
@@ -8,6 +7,7 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="js/util.js"></script>
 		<script src="js/login.js"></script>
+		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/login.css" />
 	</head>
 	<body onload="init()">
 		<header>
@@ -16,18 +16,26 @@
 		<section>
 			<nav>
 				<form method="post" action="" id="nouvellePartie">
-					<label for="idGame">Entrez un nom pour la nouvelle partie : </label><input type="text" name="idGame" id="idGame"/>
-					<label for="login">Entrez votre nom : </label><input type="text" name="login" id="login"/>
-					<input type="submit" value="Nouveau jeu !" />
+					<div id="champLogin">
+						<label for="login">Entrez votre nom : </label>
+						<input type="text" name="login" id="login"/>
+						<input type="submit" value="Se connecter !" />
+					</div>
+					<div id="champIdGame">
+						Selectionner une partie :
+						<ul id="lesParties"/>
+						<label for="idGame">Ou taper le nom d'une nouvelle partie : </label>
+						<input type="text" name="idGame" id="idGame"/>
+						<input type="submit" value="Nouveau jeu !" />
+					</div>
 				</form>
-				<ul id="lesParties"/>
 			</nav>
 			<section id="detailPartie">
 				
 			</section>
 		</section>
 		<footer>
-			Mini-projet IHM de M2 P GI...
+			Coolest robots
 		</footer>
 	</body>
 </html>
