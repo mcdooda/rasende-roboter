@@ -9,3 +9,15 @@
 footer {
 	font-style: italic;
 }
+
+#lesParties a span{
+	display:none;
+}
+
+#lesParties a:hover span{
+	display:block;
+}
+
+#lesParties a:hover {
+	font-size:150%;
+}

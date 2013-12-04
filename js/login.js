@@ -11,44 +11,41 @@ var XHR = function(method, ad, params) {
 	xhr.send( str );
 }
 
+
 function init() {
 	// Connect to the SocketIO server to retrieve ongoing games.
 	socket = io.connect();
 	socket.on('gamesList', function(data) {
 
-								 var ul = document.getElementById('lesParties');
-								 alert('begin fonction');
-								 ul.innerHTML='';
-								 for(p in data.gamesList) {
-									 var li = document.createElement('li'); 
-									 ul.appendChild( li );
-									 var a = document.createElement('a');
-									 a.setAttribute('href', '#');
-									 a.addEventListener('click', function() {
-										document.getElementById('idGame').value = data.gamesList[p];
-										document.getElementById('nouvellePartie').submit();
-										return false;
-									 });
-									 a.appendChild( document.createTextNode( data.gamesList[p] ) );
-									 alert('apres a.appendchild');
-									 var span = document.createElement('span');
-									 alert('apres creation span');
-									 //span.setAttribute
-									 getImgPart(data.gamesList[p], span);
-									 alert('apres getImgPart');
-									 a.appendChild(span);
-									 alert('ajout span to a');
-									 li.appendChild(a);
-									 alert('apres creation span and add to a');
+		var ul = document.getElementById('lesParties');
+		ul.innerHTML='';
+		if(data.gamesList.length > 0)
+	        {
+			for(p in data.gamesList) {
+			      var li = document.createElement('li'); 
+			      ul.appendChild( li );
+			      var a = document.createElement('a');
+			      a.setAttribute('href', '#');
+			      a.addEventListener('click', function() {
+				      document.getElementById('idGame').value = data.gamesList[p];
+				      document.getElementById('nouvellePartie').submit();
+				      return false;
+			      });
+			      a.appendChild( document.createTextNode( data.gamesList[p] ) );
+			      var span = document.createElement('span');
+			      //span.setAttribute
+			      getImgPart(data.gamesList[p], span);
+			      a.appendChild(span);
+			      li.appendChild(a);
 
-									}
-								} else {
-									var li = document.createElement('li'); 
-									ul.appendChild(li);
-									li.appendChild(document.createTextNode('Aucune partie disponible'));
-									li.className = 'empty';
-								}
-							}
+		      }
+	      } else {
+		      var li = document.createElement('li'); 
+		      ul.appendChild(li);
+		      li.appendChild(document.createTextNode('Aucune partie disponible'));
+		      li.className = 'empty';
+	      }
+      }
 			);
 	socket.emit('loginPage');
 	
@@ -72,12 +69,9 @@ function getImgPart(name, span){
   XHR('GET', '/' + name, {
 	
 		onload: function() {
-			alert('dans getImg');
 			var data = JSON.parse(this.responseText);
 			//console.log('data', data);
-			alert('recupere data');
 			afficherPlateau(data, span);
-			alert('afficher data dans span');
 		}
 		
 	});

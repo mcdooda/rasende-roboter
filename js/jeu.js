@@ -59,12 +59,11 @@ function afficherPlateau(plateau, conteneur, id) {
 	}
 	table.appendChild(tbody);
 	
-<<<<<<< HEAD
 	conteneur.appendChild(table);
 	var partie = document.getElementById('partie');
 	if(partie){
 		var redimensionner = function() {
-			
+			var partie = document.getElementById('partie');
 			var largeurPlateau;
 			var ratio = 0.96;
 			if (partie.offsetWidth < partie.offsetHeight) {
@@ -81,43 +80,18 @@ function afficherPlateau(plateau, conteneur, id) {
 			for (var i = 0; i < L.length; i++) {
 				L[i].style.height = largeurCase + 'px';
 			}
+			var largeurRobot = (largeurCase - 1) * 0.8;
+			var M = table.querySelectorAll('.robot');
+			for (var i = 0; i < M.length; i++) {
+				M[i].style.height = largeurRobot + 'px';
+				M[i].style.width  = largeurRobot + 'px';
+			}
 		};
 		
 
 		redimensionner();
 		addEventListener('resize', redimensionner);
 	}
-=======
-	document.getElementById('partie').appendChild(table);
-	
-	var redimensionner = function() {
-		var partie = document.getElementById('partie');
-		var largeurPlateau;
-		var ratio = 0.96;
-		if (partie.offsetWidth < partie.offsetHeight) {
-			largeurPlateau = partie.offsetWidth * ratio;
-			table.style.width = largeurPlateau + 'px';
-			table.style.height = largeurPlateau + 'px';
-		} else {
-			largeurPlateau = partie.offsetHeight * ratio;
-			table.style.width = largeurPlateau + 'px';
-			table.style.height = largeurPlateau + 'px';
-		}
-		var largeurCase = largeurPlateau / 16;
-		var L = table.querySelectorAll('tr, td');
-		for (var i = 0; i < L.length; i++) {
-			L[i].style.height = largeurCase + 'px';
-		}
-		var largeurRobot = (largeurCase - 1) * 0.8;
-		var M = table.querySelectorAll('.robot');
-		for (var i = 0; i < M.length; i++) {
-			M[i].style.height = largeurRobot + 'px';
-			M[i].style.width  = largeurRobot + 'px';
-		}
-	};
-	redimensionner();
-	addEventListener('resize', redimensionner);
->>>>>>> 017a169c5f9e5001fe80f59709a23f59f51facd7
 }
 
 // fonction appelee lors du clic sur un robot
