@@ -197,6 +197,7 @@ function afficherSelection(robotElement) {
 
 // fonction appelee lors du drag d'un robot
 function drag(evt) {
+	evt.dataTransfer.effectAllowed = 'copyMove';
 	evt.dataTransfer.setData("Text",evt.target.id);
 }
 
@@ -417,8 +418,8 @@ function dragOverEnter(evt) {
 
 // fonction appelee lorsqu'un robot est depose sur une case
 function drop(evt) {
-	evt.stopPropagation();
-	evt.preventDefault();
+	if(evt.preventDefault) { evt.preventDefault(); }
+    if(evt.stopPropagation) { evt.stopPropagation(); }
 	var selection = getRobotSelectionne();
 	deplacerRobot(selection, evt.target);
 	
@@ -433,8 +434,7 @@ function supprimerClicDestinations() {
 		L[i].removeEventListener('touchstart', clicDestination);
 		L[i].removeEventListener('dragover',dragOverEnter);
 		L[i].removeEventListener('dragenter',dragOverEnter);
-		L[i].removeEventListener('dragend',dragOverEnter);
-		L[i].removeEventListener('drop',clicDestination);
+		L[i].removeEventListener('drop',drop);
 	}
 }
 
@@ -446,8 +446,7 @@ function ajouterClicDestinations() {
 		L[i].addEventListener('touchstart', clicDestination);
 		L[i].addEventListener('dragover',dragOverEnter);
 		L[i].addEventListener('dragenter',dragOverEnter);
-		L[i].removeEventListener('dragend',dragOverEnter);
-		L[i].addEventListener('drop',clicDestination);
+		L[i].addEventListener('drop',drop);
 	}
 }
 
