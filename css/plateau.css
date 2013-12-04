@@ -57,8 +57,6 @@
 /* robot */
 #plateau .robot {
 	display: block;
-	width: 30%;
-	height: 30%;
 	margin: auto;
 	border-color: #34495e;
 	border-style: solid;

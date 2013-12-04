@@ -76,6 +76,12 @@ function afficherPlateau(plateau) {
 		for (var i = 0; i < L.length; i++) {
 			L[i].style.height = largeurCase + 'px';
 		}
+		var largeurRobot = largeurCase - 20;
+		var M = table.querySelectorAll('.robot');
+		for (var i = 0; i < M.length; i++) {
+			M[i].style.height = largeurRobot + 'px';
+			M[i].style.width  = largeurRobot + 'px';
+		}
 	};
 	redimensionner();
 	addEventListener('resize', redimensionner);
@@ -495,12 +501,38 @@ function appuiTouche(e) {
 
 // ajoute l'evenement touche appuyee
 function ajouterTouches() {
-	document.addEventListener('keypress', appuiTouche);
+	document.addEventListener('keydown', appuiTouche);
 }
 
 // supprime l'evenement touche appuyee
 function supprimerTouches() {
-	document.removeEventListener('keypress', appuiTouche);
+	document.removeEventListener('keydown', appuiTouche);
+}
+
+// ajoute les evenements swipe sur le plateau
+function ajouterSwipe() {
+	var table = document.getElementById('plateau');
+	util.addSwipe(table, 'u', function() {
+		alert('swipe u');
+	});
+	util.addSwipe(table, 'l', function() {
+		alert('swipe l');
+	});
+	util.addSwipe(table, 'd', function() {
+		alert('swipe d');
+	});
+	util.addSwipe(table, 'r', function() {
+		alert('swipe r');
+	});
+}
+
+// supprime les evenements swipe
+function supprimerSwipe() {
+	var table = document.getElementById('plateau');
+	util.removeSwipe(table, 'u');
+	util.removeSwipe(table, 'l');
+	util.removeSwipe(table, 'd');
+	util.removeSwipe(table, 'r');
 }
 
 // reinitialise les positions initiales des robots
