@@ -410,8 +410,9 @@ function clicDestination() {
 
 // fonction appelee lors du deplacement d'un robot sur une case
 function dragOverEnter(evt) {
+	evt.stopPropagation();
 	evt.preventDefault();
-	evt.dataTransfert.dropEffect = "copy";
+	evt.dataTransfer.dropEffect = "move";
 }
 
 // fonction appelee lorsqu'un robot est depose sur une case
@@ -420,6 +421,7 @@ function drop(evt) {
 	evt.preventDefault();
 	var selection = getRobotSelectionne();
 	deplacerRobot(selection, evt.target);
+	
 	return false;
 }
 
@@ -430,7 +432,8 @@ function supprimerClicDestinations() {
 		L[i].removeEventListener('mousedown', clicDestination);
 		L[i].removeEventListener('touchstart', clicDestination);
 		L[i].removeEventListener('dragover',dragOverEnter);
-		L[i].removeEventListener('draenter',dragOverEnter);
+		L[i].removeEventListener('dragenter',dragOverEnter);
+		L[i].removeEventListener('dragend',dragOverEnter);
 		L[i].removeEventListener('drop',clicDestination);
 	}
 }
@@ -443,6 +446,7 @@ function ajouterClicDestinations() {
 		L[i].addEventListener('touchstart', clicDestination);
 		L[i].addEventListener('dragover',dragOverEnter);
 		L[i].addEventListener('dragenter',dragOverEnter);
+		L[i].removeEventListener('dragend',dragOverEnter);
 		L[i].addEventListener('drop',clicDestination);
 	}
 }
