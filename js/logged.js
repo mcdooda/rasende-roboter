@@ -36,19 +36,20 @@ function init() {
 			}
 		});
 	socket.on('FinalCountDown'	, function(data) {
-		 var ms   = data.FinalCountDown;
-		 console.log("FinalCountDown : " + ms);
-		 
-		 var iv = setInterval(function() {
-		 	ms -= 1000;
-		 	if (ms <= 0) {
-		 		clearInterval(iv);
-		 		document.getElementById('final-count-down').innerHTML = 'time over';
-		 	} else {
-		 		document.getElementById('final-count-down').innerHTML = parseInt(ms / 1000) + 's';
-		 	}
-		 }, 1000);
-		 
+		document.getElementById('count').style.display = 'block';
+		var ms   = data.FinalCountDown;
+		console.log("FinalCountDown : " + ms);
+		
+		var iv = setInterval(function() {
+			ms -= 1000;
+			if (ms <= 0) {
+				clearInterval(iv);
+				document.getElementById('final-count-down').innerHTML = 'time over';
+			} else {
+				document.getElementById('final-count-down').innerHTML = parseInt(ms / 1000) + 's';
+			}
+		}, 1000);
+		
 		});
 	socket.on('TerminateGame'	, function(data) {
 		 h1 = document.querySelector('body > header > h1');
@@ -69,7 +70,7 @@ function init() {
 			var data = JSON.parse(this.responseText);
 			console.log('data', data);
 			
-			afficherPlateau(data, document.getElementById('partie'));
+			afficherPlateau(data, document.getElementById('partie'), 'plateau');
 			ajouterClicRobots();
 			ajouterTouches();
 		}

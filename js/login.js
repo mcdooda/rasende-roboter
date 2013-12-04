@@ -1,8 +1,22 @@
+var XHR = function(method, ad, params) {
+	var xhr = new XMLHttpRequest();
+	xhr.onload = params.onload || null;
+	xhr.open(method, ad);
+	if(method == 'POST') {xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');}
+	var variables   = params.variables || null
+	  , str			= '';
+	for(var i in variables) {
+		 str += i + '=' + encodeURIComponent( variables[i] ) + '&';
+		}
+	xhr.send( str );
+}
+
 function init() {
 	// Connect to the SocketIO server to retrieve ongoing games.
 	socket = io.connect();
 	socket.on('gamesList', function(data) {
 								 var ul = document.getElementById('lesParties');
+								 alert('begin fonction');
 								 ul.innerHTML='';
 								 for(p in data.gamesList) {
 									 var li = document.createElement('li'); 
@@ -15,10 +29,16 @@ function init() {
 										return false;
 									 });
 									 a.appendChild( document.createTextNode( data.gamesList[p] ) );
-									 li.appendChild(a);
+									 alert('apres a.appendchild');
 									 var span = document.createElement('span');
+									 alert('apres creation span');
 									 //span.setAttribute
 									 getImgPart(data.gamesList[p], span);
+									 alert('apres getImgPart');
+									 a.appendChild(span);
+									 alert('ajout span to a');
+									 li.appendChild(a);
+									 alert('apres creation span and add to a');
 									}
 								}
 			 );
@@ -26,7 +46,6 @@ function init() {
 	
 	document.getElementById('nouvellePartie').addEventListener('submit', function(e) {
 		if (document.getElementById('login').value != '' && document.getElementById('idGame').value == '') {
-			console.log('login=', document.getElementById('login').value);
 			document.getElementById('champLogin').style.display = 'none';
 			document.getElementById('champIdGame').style.display = 'block';
 			document.getElementById('idGame').focus();
@@ -45,10 +64,12 @@ function getImgPart(name, span){
   XHR('GET', '/' + name, {
 	
 		onload: function() {
+			alert('dans getImg');
 			var data = JSON.parse(this.responseText);
-			console.log('data', data);
-			
+			//console.log('data', data);
+			alert('recupere data');
 			afficherPlateau(data, span);
+			alert('afficher data dans span');
 		}
 		
 	});

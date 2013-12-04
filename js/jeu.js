@@ -1,9 +1,12 @@
 var proposition = [];
 
-function afficherPlateau(plateau, conteneur) {
+// construction du tableau contenant le plateau de jeu
+function afficherPlateau(plateau, conteneur, id) {
 	var table = document.createElement('table');
-	table.className = 'plateau';
-	
+	table.setAttribute('class', 'plateau');
+	if(id){
+	    table.setAttribute('id', id);
+	}
 	var robots = {};
 	plateau.robots.forEach(function(robot) {
 		if (!(robot.line in robots)) {
@@ -28,6 +31,7 @@ function afficherPlateau(plateau, conteneur) {
 			for (var mur in casePlateau) {
 				classes.push(mur);
 			}
+			
 			
 
 			if (ligne == plateau.target.l && colonne == plateau.target.c) {
@@ -56,30 +60,40 @@ function afficherPlateau(plateau, conteneur) {
 	table.appendChild(tbody);
 	
 	conteneur.appendChild(table);
-	
-	var redimensionner = function() {
-		var partie = document.getElementById('partie');
-		if (partie.offsetWidth < partie.offsetHeight) {
-			table.style.width = partie.offsetWidth + 'px';
-			table.style.height = partie.offsetWidth + 'px';
-		} else {
-			table.style.width = partie.offsetHeight + 'px';
-			table.style.height = partie.offsetHeight + 'px';
-		}
-		var largeurCase = parseInt(table.querySelector('td').offsetWidth);
-		var L = table.querySelectorAll('tr');
-		for (var i = 0; i < L.length; i++) {
-			L[i].style.height = largeurCase + 'px';
-		}
-	};
-	redimensionner();
-	addEventListener('resize', redimensionner);
+	var partie = document.getElementById('partie');
+	if(partie){
+		var redimensionner = function() {
+			
+			var largeurPlateau;
+			var ratio = 0.96;
+			if (partie.offsetWidth < partie.offsetHeight) {
+				largeurPlateau = partie.offsetWidth * ratio;
+				table.style.width = largeurPlateau + 'px';
+				table.style.height = largeurPlateau + 'px';
+			} else {
+				largeurPlateau = partie.offsetHeight * ratio;
+				table.style.width = largeurPlateau + 'px';
+				table.style.height = largeurPlateau + 'px';
+			}
+			var largeurCase = largeurPlateau / 16;
+			var L = table.querySelectorAll('tr, td');
+			for (var i = 0; i < L.length; i++) {
+				L[i].style.height = largeurCase + 'px';
+			}
+		};
+		
+
+		redimensionner();
+		addEventListener('resize', redimensionner);
+	}
 }
 
+// fonction appelee lors du clic sur un robot
 function clicRobot() {
 	selectionnerRobot(this);
 }
 
+// un robot est selectionne, on affiche les cases disponibles et on ajoute les evenements necessaires
 function selectionnerRobot(robotElement) {
 	masquerSelection();
 	afficherSelection(robotElement);
@@ -89,6 +103,7 @@ function selectionnerRobot(robotElement) {
 	ajouterClicDestinations();
 }
 
+// un robot est deplace vers une case
 function deplacerRobot(robotElement, caseElement) {
 	var couleurRobot = getCouleur(robotElement);
 	var dernierDeplace = getDernierRobotDeplace();
@@ -141,6 +156,7 @@ function deplacerRobot(robotElement, caseElement) {
 	}
 }
 
+// renvoie la couleur red, green, blue ou yellow d'un robot ou d'une case
 function getCouleur(element) {
 	var couleurs = [
 		'red',
@@ -157,14 +173,17 @@ function getCouleur(element) {
 	}
 }
 
+// renvoie le robot selectionne
 function getRobotSelectionne() {
-	return document.querySelector('.plateau .robot.selection');
+	return document.querySelector('#plateau .robot.selection');
 }
 
+// renvoie le dernier robot qui a ete deplace
 function getDernierRobotDeplace() {
-	return document.querySelector('.plateau .robot.dernier-deplace');
+	return document.querySelector('#plateau .robot.dernier-deplace');
 }
 
+// masque l'effet de selection sur le robot
 function masquerSelection() {
 	var selection = getRobotSelectionne();
 	if (selection != null) {
@@ -172,31 +191,52 @@ function masquerSelection() {
 	}
 }
 
+// affiche l'effet de selection sur un robot
 function afficherSelection(robotElement) {
 	util.addClass(robotElement, 'selection');
 }
 
+// fonction appelee lors du drag d'un robot
+function drag(evt) {
+	evt.dataTransfer.setData("Text",evt.target.id);
+}
+
+// ajoute les evenements clic sur les robots
 function ajouterClicRobots() {
-	var L = document.querySelectorAll('.plateau .robot');
+	var L = document.querySelectorAll('#plateau .robot');
 	for (var i = 0; i < L.length; i++) {
-		L[i].addEventListener('click', clicRobot);
+		L[i].addEventListener('mousedown', clicRobot);
+		L[i].addEventListener('touchstart', clicRobot);
+		L[i].setAttribute('draggable','true');
+		L[i].setAttribute('id',i);
+		L[i].addEventListener('dragstart', drag);
 	}
 }
 
+function supprimerClicRobot(robotElement) {
+	robotElement.removeEventListener('mousedown', clicRobot);
+	robotElement.removeEventListener('touchstart', clicRobot);
+	robotElement.setAttribute('draggable','false');
+	robotElement.removeEventListener('dragstart', drag);
+}
+
+// supprime les evenements clic pour les robots ne pouvant plus etre deplaces
 function supprimerClicRobotsDeplaces() {
-	var L = document.querySelectorAll('.plateau .robot.deplace:not(.dernier-deplace)');
+	var L = document.querySelectorAll('#plateau .robot.deplace:not(.dernier-deplace)');
 	for (var i = 0; i < L.length; i++) {
-		L[i].removeEventListener('click', clicRobot);
+		supprimerClicRobot(L[i]);
 	}
 }
 
+// supprime les evenements clic sur tous les robots
 function supprimerClicRobots() {
-	var L = document.querySelectorAll('.plateau .robot');
+	var L = document.querySelectorAll('#plateau .robot');
 	for (var i = 0; i < L.length; i++) {
-		L[i].removeEventListener('click', clicRobot);
+		supprimerClicRobot(L[i]);
 	}
 }
 
+// renvoie les coordonnees d'une case au format { ligne: y, colonne: x }
 function getCoordonneesCase(td) {
 	return {
 		ligne:   parseInt(td.getAttribute('data-ligne')),
@@ -204,14 +244,17 @@ function getCoordonneesCase(td) {
 	};
 }
 
+// renvoie la case correspondant aux coordonnees
 function getCase(ligne, colonne) {
 	return document.querySelector('td[data-ligne="' + ligne + '"][data-colonne="' + colonne + '"]');
 }
 
+// renvoie si une case contient un robot
 function contientRobot(caseElement) {
 	return caseElement.querySelector('.robot') != null;
 }
 
+// renvoie si un deplacement dans une direction est disponible depuis une case donnee
 function deplacementPossible(td, direction) {
 	if (td == null) {
 		return false;
@@ -262,8 +305,9 @@ function deplacementPossible(td, direction) {
 	return false;
 }
 
+// masque l'effet de case accessible sur toutes les cases
 function masquerCasesAccessibles() {
-	var L = document.querySelectorAll('.plateau .accessible');
+	var L = document.querySelectorAll('#plateau .accessible');
 	for (var i = 0; i < L.length; i++) {
 		[
 			'accessible',
@@ -278,6 +322,7 @@ function masquerCasesAccessibles() {
 	}
 }
 
+// affiche les cases accessibles d'un robot
 function afficherCasesAccessibles(robotElement) {
 
 	var caseCourante = robotElement.parentNode;
@@ -358,27 +403,54 @@ function afficherCasesAccessibles(robotElement) {
 	}
 }
 
+// fonction appelee lors d'un clic sur une case accessible pour le robot selectionne
 function clicDestination() {
 	var selection = getRobotSelectionne();
 	deplacerRobot(selection, this);
 }
 
+// fonction appelee lors du deplacement d'un robot sur une case
+function dragOverEnter(evt) {
+	evt.preventDefault();
+	evt.dataTransfert.dropEffect = "copy";
+}
+
+// fonction appelee lorsqu'un robot est depose sur une case
+function drop(evt) {
+	evt.stopPropagation();
+	evt.preventDefault();
+	var selection = getRobotSelectionne();
+	deplacerRobot(selection, evt.target);
+	return false;
+}
+
+// suppression des evenements clic sur les cases de destination du robot selectionne
 function supprimerClicDestinations() {
-	var L = document.querySelectorAll('.plateau .destination');
+	var L = document.querySelectorAll('#plateau .destination');
 	for (var i = 0; i < L.length; i++) {
-		L[i].removeEventListener('click', clicDestination);
+		L[i].removeEventListener('mousedown', clicDestination);
+		L[i].removeEventListener('touchstart', clicDestination);
+		L[i].removeEventListener('dragover',dragOverEnter);
+		L[i].removeEventListener('draenter',dragOverEnter);
+		L[i].removeEventListener('drop',clicDestination);
 	}
 }
 
+// ajout des evenements clic sur les cases de destination du robot selectionne
 function ajouterClicDestinations() {
-	var L = document.querySelectorAll('.plateau .destination');
+	var L = document.querySelectorAll('#plateau .destination');
 	for (var i = 0; i < L.length; i++) {
-		L[i].addEventListener('click', clicDestination);
+		L[i].addEventListener('mousedown', clicDestination);
+		L[i].addEventListener('touchstart', clicDestination);
+		L[i].addEventListener('dragover',dragOverEnter);
+		L[i].addEventListener('dragenter',dragOverEnter);
+		L[i].addEventListener('drop',clicDestination);
 	}
 }
 
+// selection du prochain robot disponible pour etre deplace (touche espace)
 function selectionnerRobotSuivant() {
-	var L = document.querySelectorAll('.plateau .robot:not(.deplace), .plateau .robot.dernier-deplace');
+	var L = document.querySelectorAll('#plateau .robot:not(.deplace), #plateau .robot.dernier-deplace');
 	var selection = getRobotSelectionne();
 	if (selection != null) {
 		var index = Array.prototype.indexOf.call(L, selection);
@@ -389,14 +461,16 @@ function selectionnerRobotSuivant() {
 	}
 }
 
+// deplacer un robot dans une direction donnee (touches directionnelles)
 function deplacerRobotDirection(direction) {
 	var selection = getRobotSelectionne();
-	var destination = document.querySelector('.plateau .destination-' + direction);
+	var destination = document.querySelector('#plateau .destination-' + direction);
 	if (selection != null && destination != null) {
 		deplacerRobot(selection, destination);
 	}
 }
 
+// fonction appelee lors de l'appui sur une touche du clavier
 function appuiTouche(e) {
 	console.log(e.keyCode || e.charCode);
 	switch (e.keyCode || e.charCode) {
@@ -426,16 +500,19 @@ function appuiTouche(e) {
 	}
 }
 
+// ajoute l'evenement touche appuyee
 function ajouterTouches() {
 	document.addEventListener('keypress', appuiTouche);
 }
 
+// supprime l'evenement touche appuyee
 function supprimerTouches() {
 	document.removeEventListener('keypress', appuiTouche);
 }
 
+// reinitialise les positions initiales des robots
 function reinitialiserRobots() {
-	var L = document.querySelectorAll('.plateau .robot');
+	var L = document.querySelectorAll('#plateau .robot');
 	for (var i = 0; i < L.length; i++) {
 		[
 			'deplace',
@@ -448,6 +525,7 @@ function reinitialiserRobots() {
 	}
 }
 
+// recommencer la partie
 function recommencer() {
 	proposition.length = 0;
 	masquerCasesAccessibles();
@@ -459,12 +537,14 @@ function recommencer() {
 	ajouterTouches();
 }
 
+// renvoie le nombre de mouvements pour une proposition donnee
 function getNombreMouvements(proposition) {
 	return proposition.filter(function(p) {
 		return p.command == 'move';
 	}).length;
 }
 
+// affiche le score d'une solution donnee
 function afficherScore(solution) {
 	var scoreElement = document.querySelector('#lesParticipants li[data-nom="' + solution.player + '"] .score');
 	var score = getNombreMouvements(solution.proposition);
@@ -472,6 +552,7 @@ function afficherScore(solution) {
 	scoreElement.setAttribute('data-score', score);
 }
 
+// affiche le gagnant de la partie
 function afficherGagnant() {
 	var L = document.querySelectorAll('#lesParticipants span[data-score]');
 	var imin = 0;
