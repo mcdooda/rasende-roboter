@@ -76,7 +76,7 @@ function afficherPlateau(plateau) {
 		for (var i = 0; i < L.length; i++) {
 			L[i].style.height = largeurCase + 'px';
 		}
-		var largeurRobot = largeurCase - 20;
+		var largeurRobot = (largeurCase - 1) * 0.8;
 		var M = table.querySelectorAll('.robot');
 		for (var i = 0; i < M.length; i++) {
 			M[i].style.height = largeurRobot + 'px';
@@ -474,30 +474,35 @@ function deplacerRobotDirection(direction) {
 
 // fonction appelee lors de l'appui sur une touche du clavier
 function appuiTouche(e) {
-	console.log(e.keyCode || e.charCode);
 	switch (e.keyCode || e.charCode) {
 		case 27: // echap
 		recommencer();
+		e.preventDefault();
 		break;
 	
 		case 32: // espace
 		selectionnerRobotSuivant();
+		e.preventDefault();
 		break;
 		
 		case 37: // gauche
 		deplacerRobotDirection('g');
+		e.preventDefault();
 		break;
 		
 		case 38: // haut
 		deplacerRobotDirection('h');
+		e.preventDefault();
 		break;
 		
 		case 40: // bas
 		deplacerRobotDirection('b');
+		e.preventDefault();
 		break;
 		
 		case 39: // droite
 		deplacerRobotDirection('d');
+		e.preventDefault();
 		break;
 	}
 }
