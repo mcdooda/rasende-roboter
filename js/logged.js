@@ -6,7 +6,7 @@ var XHR = function(method, ad, params) {
 	var variables   = params.variables || null
 	  , str			= '';
 	for(var i in variables) {
-		 str += i + '=' + encodeURIComponent( variables[i] ) + '&';
+		str += i + '=' + encodeURIComponent( variables[i] ) + '&';
 		}
 	xhr.send( str );
 }
@@ -23,16 +23,19 @@ function init() {
 	// Connect to the SocketIO server to retrieve ongoing games.
 	socket = io.connect();
 	socket.on('participants', function(data) {
-		 var ul = document.getElementById('lesParticipants');
-		 ul.innerHTML='';
-		 for(p in data.participants) {
-			 var li = document.createElement('li');
-			 li.setAttribute('data-nom', data.participants[p]);
-			 ul.appendChild( li );
-			 li.appendChild( document.createTextNode( data.participants[p] + " " ) );
-			 var score = document.createElement('span');
-			 score.className = 'score';
-			 li.appendChild(score);
+		var ul = document.getElementById('lesParticipants');
+		ul.innerHTML='';
+		for(p in data.participants) {
+			var li = document.createElement('li');
+			li.setAttribute('data-nom', data.participants[p]);
+			ul.appendChild( li );
+			li.appendChild( document.createTextNode( data.participants[p] + " " ) );
+			if(data.participants[p] == getLogin()) {
+				li.className = 'login'
+			}
+			var score = document.createElement('span');
+			score.className = 'score';
+			li.appendChild(score);
 			}
 		});
 	socket.on('FinalCountDown'	, function(data) {
@@ -52,13 +55,13 @@ function init() {
 		
 		});
 	socket.on('TerminateGame'	, function(data) {
-		 h1 = document.querySelector('body > header > h1');
-		 h1.innerHTML += ' est terminée !';
-		 afficherGagnant();
+		h1 = document.querySelector('body > header > h1');
+		h1.innerHTML += ' est terminée !';
+		afficherGagnant();
 		});
 	socket.on('solutions'		, function(data) {
-		 console.log("Solutions are :\n"+JSON.stringify(data.solutions));
-		 data.solutions.forEach(afficherScore);
+		console.log("Solutions are :\n"+JSON.stringify(data.solutions));
+		data.solutions.forEach(afficherScore);
 		});
 	socket.emit ('identification', 	{ login	: getLogin()
 									, idGame: getIdGame()}

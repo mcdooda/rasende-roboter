@@ -15,6 +15,7 @@ function init() {
 	// Connect to the SocketIO server to retrieve ongoing games.
 	socket = io.connect();
 	socket.on('gamesList', function(data) {
+
 								 var ul = document.getElementById('lesParties');
 								 alert('begin fonction');
 								 ul.innerHTML='';
@@ -39,9 +40,16 @@ function init() {
 									 alert('ajout span to a');
 									 li.appendChild(a);
 									 alert('apres creation span and add to a');
+
 									}
+								} else {
+									var li = document.createElement('li'); 
+									ul.appendChild(li);
+									li.appendChild(document.createTextNode('Aucune partie disponible'));
+									li.className = 'empty';
 								}
-			 );
+							}
+			);
 	socket.emit('loginPage');
 	
 	document.getElementById('nouvellePartie').addEventListener('submit', function(e) {

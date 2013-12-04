@@ -1,3 +1,11 @@
 #champIdGame {
 	display: none;
 }
+
+.empty  {
+	font-style: italic;
+}
+
+footer {
+	font-style: italic;
+}

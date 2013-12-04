@@ -59,6 +59,7 @@ function afficherPlateau(plateau, conteneur, id) {
 	}
 	table.appendChild(tbody);
 	
+<<<<<<< HEAD
 	conteneur.appendChild(table);
 	var partie = document.getElementById('partie');
 	if(partie){
@@ -86,6 +87,37 @@ function afficherPlateau(plateau, conteneur, id) {
 		redimensionner();
 		addEventListener('resize', redimensionner);
 	}
+=======
+	document.getElementById('partie').appendChild(table);
+	
+	var redimensionner = function() {
+		var partie = document.getElementById('partie');
+		var largeurPlateau;
+		var ratio = 0.96;
+		if (partie.offsetWidth < partie.offsetHeight) {
+			largeurPlateau = partie.offsetWidth * ratio;
+			table.style.width = largeurPlateau + 'px';
+			table.style.height = largeurPlateau + 'px';
+		} else {
+			largeurPlateau = partie.offsetHeight * ratio;
+			table.style.width = largeurPlateau + 'px';
+			table.style.height = largeurPlateau + 'px';
+		}
+		var largeurCase = largeurPlateau / 16;
+		var L = table.querySelectorAll('tr, td');
+		for (var i = 0; i < L.length; i++) {
+			L[i].style.height = largeurCase + 'px';
+		}
+		var largeurRobot = (largeurCase - 1) * 0.8;
+		var M = table.querySelectorAll('.robot');
+		for (var i = 0; i < M.length; i++) {
+			M[i].style.height = largeurRobot + 'px';
+			M[i].style.width  = largeurRobot + 'px';
+		}
+	};
+	redimensionner();
+	addEventListener('resize', redimensionner);
+>>>>>>> 017a169c5f9e5001fe80f59709a23f59f51facd7
 }
 
 // fonction appelee lors du clic sur un robot
@@ -198,6 +230,7 @@ function afficherSelection(robotElement) {
 
 // fonction appelee lors du drag d'un robot
 function drag(evt) {
+	evt.dataTransfer.effectAllowed = 'copyMove';
 	evt.dataTransfer.setData("Text",evt.target.id);
 }
 
@@ -411,16 +444,18 @@ function clicDestination() {
 
 // fonction appelee lors du deplacement d'un robot sur une case
 function dragOverEnter(evt) {
+	evt.stopPropagation();
 	evt.preventDefault();
-	evt.dataTransfert.dropEffect = "copy";
+	evt.dataTransfer.dropEffect = "move";
 }
 
 // fonction appelee lorsqu'un robot est depose sur une case
 function drop(evt) {
-	evt.stopPropagation();
-	evt.preventDefault();
+	if(evt.preventDefault) { evt.preventDefault(); }
+    if(evt.stopPropagation) { evt.stopPropagation(); }
 	var selection = getRobotSelectionne();
 	deplacerRobot(selection, evt.target);
+	
 	return false;
 }
 
@@ -431,8 +466,8 @@ function supprimerClicDestinations() {
 		L[i].removeEventListener('mousedown', clicDestination);
 		L[i].removeEventListener('touchstart', clicDestination);
 		L[i].removeEventListener('dragover',dragOverEnter);
-		L[i].removeEventListener('draenter',dragOverEnter);
-		L[i].removeEventListener('drop',clicDestination);
+		L[i].removeEventListener('dragenter',dragOverEnter);
+		L[i].removeEventListener('drop',drop);
 	}
 }
 
@@ -444,7 +479,7 @@ function ajouterClicDestinations() {
 		L[i].addEventListener('touchstart', clicDestination);
 		L[i].addEventListener('dragover',dragOverEnter);
 		L[i].addEventListener('dragenter',dragOverEnter);
-		L[i].addEventListener('drop',clicDestination);
+		L[i].addEventListener('drop',drop);
 	}
 }
 
@@ -472,42 +507,73 @@ function deplacerRobotDirection(direction) {
 
 // fonction appelee lors de l'appui sur une touche du clavier
 function appuiTouche(e) {
-	console.log(e.keyCode || e.charCode);
 	switch (e.keyCode || e.charCode) {
 		case 27: // echap
 		recommencer();
+		e.preventDefault();
 		break;
 	
 		case 32: // espace
 		selectionnerRobotSuivant();
+		e.preventDefault();
 		break;
 		
 		case 37: // gauche
 		deplacerRobotDirection('g');
+		e.preventDefault();
 		break;
 		
 		case 38: // haut
 		deplacerRobotDirection('h');
+		e.preventDefault();
 		break;
 		
 		case 40: // bas
 		deplacerRobotDirection('b');
+		e.preventDefault();
 		break;
 		
 		case 39: // droite
 		deplacerRobotDirection('d');
+		e.preventDefault();
 		break;
 	}
 }
 
 // ajoute l'evenement touche appuyee
 function ajouterTouches() {
-	document.addEventListener('keypress', appuiTouche);
+	document.addEventListener('keydown', appuiTouche);
 }
 
 // supprime l'evenement touche appuyee
 function supprimerTouches() {
-	document.removeEventListener('keypress', appuiTouche);
+	document.removeEventListener('keydown', appuiTouche);
+}
+
+// ajoute les evenements swipe sur le plateau
+function ajouterSwipe() {
+	var table = document.getElementById('plateau');
+	util.addSwipe(table, 'u', function() {
+		alert('swipe u');
+	});
+	util.addSwipe(table, 'l', function() {
+		alert('swipe l');
+	});
+	util.addSwipe(table, 'd', function() {
+		alert('swipe d');
+	});
+	util.addSwipe(table, 'r', function() {
+		alert('swipe r');
+	});
+}
+
+// supprime les evenements swipe
+function supprimerSwipe() {
+	var table = document.getElementById('plateau');
+	util.removeSwipe(table, 'u');
+	util.removeSwipe(table, 'l');
+	util.removeSwipe(table, 'd');
+	util.removeSwipe(table, 'r');
 }
 
 // reinitialise les positions initiales des robots
