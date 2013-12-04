@@ -1,18 +1,13 @@
 html {
 	height: 100%;
+	width: 100%;
 }
 
 body {
-	display: flex;
 	height: 100%;
+	width: 100%;
 	padding: 0;
 	margin: 0;
-}
-
-@media(orientation: portrait) {
-	body {
-		flex-direction: column;
-	}
 }
 
 body > section {
@@ -21,11 +16,29 @@ body > section {
 }
 
 #partie {
-	flex: 1 1 0;
+	width: 50%;
+	height: 100%;
+	float: left;
 }
 
 #infos {
-	flex: 1 1 0;
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+@media(orientation: portrait) {
+	#partie {
+		width: 100%;
+		height: 50%;
+		float: none;
+	}
+
+	#infos {
+		width: 100%;
+		height: 50%;
+		float: none;
+	}
 }
 
 /* participants */
