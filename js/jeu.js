@@ -409,10 +409,7 @@ function dragOverEnter(evt) {
 	evt.dataTransfer.dropEffect = "move";
 }
 
-<<<<<<< HEAD
-=======
 // fonction appelee lorsqu'un robot est depose sur une case
->>>>>>> f0a7cd76ee5529c9ba1bfb19cd84b265afe832ec
 function drop(evt) {
 	evt.stopPropagation();
 	evt.preventDefault();
