@@ -16,6 +16,9 @@ function init() {
 									 });
 									 a.appendChild( document.createTextNode( data.gamesList[p] ) );
 									 li.appendChild(a);
+									 var span = document.createElement('span');
+									 //span.setAttribute
+									 getImgPart(data.gamesList[p], span);
 									}
 								}
 			 );
@@ -36,6 +39,21 @@ function init() {
 			return false;
 		}
 	});
+}
+
+function getImgPart(name, span){
+  XHR('GET', '/' + name, {
+	
+		onload: function() {
+			var data = JSON.parse(this.responseText);
+			console.log('data', data);
+			
+			afficherPlateau(data, span);
+		}
+		
+	});
+  
+  
 }
 
 

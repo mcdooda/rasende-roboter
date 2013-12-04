@@ -1,6 +1,6 @@
 var proposition = [];
 
-function afficherPlateau(plateau) {
+function afficherPlateau(plateau, conteneur) {
 	var table = document.createElement('table');
 	table.className = 'plateau';
 	
@@ -55,7 +55,7 @@ function afficherPlateau(plateau) {
 	}
 	table.appendChild(tbody);
 	
-	document.getElementById('partie').appendChild(table);
+	conteneur.appendChild(table);
 	
 	var redimensionner = function() {
 		var partie = document.getElementById('partie');

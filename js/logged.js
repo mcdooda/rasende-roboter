@@ -69,7 +69,7 @@ function init() {
 			var data = JSON.parse(this.responseText);
 			console.log('data', data);
 			
-			afficherPlateau(data);
+			afficherPlateau(data, document.getElementById('partie'));
 			ajouterClicRobots();
 			ajouterTouches();
 		}
