@@ -36,3 +36,11 @@ body > section {
 #count {
 	display: none;
 }	
+
+.login {
+	font-weight: bold;
+}
+
+footer {
+	font-style: italic;
+}
