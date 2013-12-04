@@ -55,7 +55,7 @@ function init() {
 		
 		});
 	socket.on('TerminateGame'	, function(data) {
-		h1 = document.querySelector('body > header > h1');
+		h1 = document.querySelector('#infos > header > h1');
 		h1.innerHTML += ' est terminée !';
 		afficherGagnant();
 		});
