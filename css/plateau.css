@@ -32,28 +32,6 @@
 	border-right: 1px solid black;
 }
 
-/* case accessible */
-#plateau td.accessible {
-	background-color: #ecf0f1;
-}
-#plateau td.destination {
-	background-color: #bdc3c7;
-}
-
-/* cibles */
-#plateau td.cible.blue {
-	background-color: #3498db;
-}
-#plateau td.cible.red {
-	background-color: #e74c3c;
-}
-#plateau td.cible.green {
-	background-color: #2ecc71;
-}
-#plateau td.cible.yellow {
-	background-color: #f1c40f;
-}
-
 /* robot */
 #plateau .robot {
 	display: block;
@@ -94,4 +72,42 @@
 	background-color: #f39c12;
 }
 
+/* case accessible */
+#plateau td.accessible {
+	background-color: #ecf0f1;
+}
 
+#plateau  td.trace-blue {
+	background-color: #bccfdb;
+}
+
+#plateau  td.trace-yellow {
+	background-color: #f1eacf;
+}
+
+#plateau  td.trace-red {
+	background-color: #e7cac7;
+}
+
+#plateau  td.trace-green {
+	background-color: #afccbc;
+}
+
+
+#plateau td.destination {
+	background-color: #bdc3c7;
+}
+
+/* cibles */
+#plateau td.cible.blue {
+	background-color: #3498db;
+}
+#plateau td.cible.red {
+	background-color: #e74c3c;
+}
+#plateau td.cible.green {
+	background-color: #2ecc71;
+}
+#plateau td.cible.yellow {
+	background-color: #f1c40f;
+}
