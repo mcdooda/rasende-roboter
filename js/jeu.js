@@ -171,27 +171,58 @@ function deplacerRobot(robotElement, caseElement) {
 	if (util.hasClass(caseElement, 'cible') && getCouleur(caseElement) == couleurRobot) {
 		supprimerClicRobots();
 		supprimerTouches();
-		
-		XHR('POST', '/proposition', {
-		
-			variables: {
-				proposition: JSON.stringify(proposition),
-				idGame: getIdGame(),
-				login: getLogin()
-			},
-			
-			onload: function() {
-				console.log(this.responseText);
-			}
-			
-		});
-		
+		envoyerProposition();
 	} else {
 		afficherCasesAccessibles(robotElement);
 		ajouterClicDestinations();
 	}
 }
 
+function envoyerProposition() {
+	XHR('POST', '/proposition', {
+		variables: {
+			proposition: JSON.stringify(proposition),
+			idGame: getIdGame(),
+			login: getLogin()
+		},
+		
+		onload: function(event) {
+			console.log(this.responseText);
+			var data = JSON.parse(this.responseText);
+			console.log(data);
+			
+			var messageElem = document.getElementById('message');
+			switch(data.state) {
+				case 'INVALID_EMPTY':
+				case 'INVALID_MOVE':
+				case 'INVALID_SELECT':
+				case 'INCOMPLETE':
+					messageElem.className = 'error';
+					messageElem.style.display = 'block';
+					
+					var message = data.details;
+					if(message.length == 0)
+						message = "Solution invalide"
+						
+					messageElem.innerHTML = message;
+					break;
+				case 'SUCCESS':
+					messageElem.className = 'info';
+					messageElem.style.display = 'block';
+					
+					var message = data.details;
+					if(message.length == 0)
+						message = "Proposition envoyée"
+						
+					messageElem.innerHTML = message;
+					break;
+				default:
+					break;
+			}
+		}
+	});
+
+}
 // renvoie la couleur red, green, blue ou yellow d'un robot ou d'une case
 function getCouleur(element) {
 	var couleurs = [

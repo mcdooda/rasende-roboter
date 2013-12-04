@@ -1,4 +1,5 @@
 function init() {
+	document.getElementById('login').focus();
 	// Connect to the SocketIO server to retrieve ongoing games.
 	socket = io.connect();
 	socket.on('gamesList', function(data) {
