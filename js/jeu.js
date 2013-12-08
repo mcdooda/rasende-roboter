@@ -108,6 +108,43 @@ function selectionnerRobot(robotElement) {
 	afficherCasesAccessibles(robotElement);
 	ajouterClicDestinations();
 }
+//tracer la route du robot
+function trace(robot, caseArrivee){
+	var couleur = getCouleur(robot);
+	var caseCourante = robot.parentNode;
+	var coordonnees = getCoordonneesCase(caseCourante);
+	var direction = getDirection(caseArrivee);
+	switch(direction){
+		case 'd':
+			for(var i = getCoordonneesCase(caseCourante).colonne; i <= getCoordonneesCase(caseArrivee).colonne;i++){
+				supprimerTrace(getCase(getCoordonneesCase(caseCourante).ligne,i));
+				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace');
+				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace-'+couleur);
+			}
+		break;
+		case 'g':
+			for(var i = getCoordonneesCase(caseArrivee).colonne; i <= getCoordonneesCase(caseCourante).colonne;i++){
+				supprimerTrace(getCase(getCoordonneesCase(caseCourante).ligne,i));
+				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace');
+				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace-'+couleur);
+			}
+		break;
+		case 'b':
+			for(var i = getCoordonneesCase(caseCourante).ligne; i <= getCoordonneesCase(caseArrivee).ligne;i++){
+				supprimerTrace(getCase(i,getCoordonneesCase(caseCourante).colonne));			
+				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace');
+				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace-'+couleur);
+			}
+		break;
+		case 'h':
+			for(var i = getCoordonneesCase(caseArrivee).ligne; i <= getCoordonneesCase(caseCourante).ligne;i++){
+				supprimerTrace(getCase(i,getCoordonneesCase(caseCourante).colonne));
+				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace');
+				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace-'+couleur);
+			}
+		break;
+	}
+}
 
 // un robot est deplace vers une case
 function deplacerRobot(robotElement, caseElement) {
@@ -130,7 +167,7 @@ function deplacerRobot(robotElement, caseElement) {
 		line:    coordonnees.ligne,
 		column:  coordonnees.colonne
 	});
-
+	trace(robotElement, caseElement);
 	util.moveTo(robotElement, caseElement);
 	util.addClass(robotElement, 'deplace');
 	util.addClass(robotElement, 'dernier-deplace');
@@ -141,27 +178,58 @@ function deplacerRobot(robotElement, caseElement) {
 	if (util.hasClass(caseElement, 'cible') && getCouleur(caseElement) == couleurRobot) {
 		supprimerClicRobots();
 		supprimerTouches();
-		
-		XHR('POST', '/proposition', {
-		
-			variables: {
-				proposition: JSON.stringify(proposition),
-				idGame: getIdGame(),
-				login: getLogin()
-			},
-			
-			onload: function() {
-				console.log(this.responseText);
-			}
-			
-		});
-		
+		envoyerProposition();
 	} else {
 		afficherCasesAccessibles(robotElement);
 		ajouterClicDestinations();
 	}
 }
 
+function envoyerProposition() {
+	XHR('POST', '/proposition', {
+		variables: {
+			proposition: JSON.stringify(proposition),
+			idGame: getIdGame(),
+			login: getLogin()
+		},
+		
+		onload: function(event) {
+			console.log(this.responseText);
+			var data = JSON.parse(this.responseText);
+			console.log(data);
+			
+			var messageElem = document.getElementById('message');
+			switch(data.state) {
+				case 'INVALID_EMPTY':
+				case 'INVALID_MOVE':
+				case 'INVALID_SELECT':
+				case 'INCOMPLETE':
+					messageElem.className = 'error';
+					messageElem.style.display = 'block';
+					
+					var message = data.details;
+					if(message.length == 0)
+						message = "Solution invalide"
+						
+					messageElem.innerHTML = message;
+					break;
+				case 'SUCCESS':
+					messageElem.className = 'info';
+					messageElem.style.display = 'block';
+					
+					var message = data.details;
+					if(message.length == 0)
+						message = "Proposition envoyée"
+						
+					messageElem.innerHTML = message;
+					break;
+				default:
+					break;
+			}
+		}
+	});
+
+}
 // renvoie la couleur red, green, blue ou yellow d'un robot ou d'une case
 function getCouleur(element) {
 	var couleurs = [
@@ -174,6 +242,23 @@ function getCouleur(element) {
 	});
 	if (couleurs.length > 0) {
 		return couleurs[0];
+	} else {
+		return null;
+	}
+}
+
+// renvoie la direction d'une case destination
+function getDirection(element) {
+	var destinations = [
+		'destination-g',
+		'destination-d',
+		'destination-h',
+		'destination-b'
+	].filter(function(destination) {
+		return util.hasClass(element, destination);
+	});
+	if (destinations.length > 0) {
+		return destinations[0].split('-')[1];
 	} else {
 		return null;
 	}
@@ -327,6 +412,34 @@ function masquerCasesAccessibles() {
 			util.removeClass(L[i], class_);
 		});
 	}
+}
+
+// enlève les traces des robots
+function supprimerTraces() {
+	var L = document.querySelectorAll('#plateau .trace');
+	for (var i = 0; i < L.length; i++) {
+		[
+			'trace',
+			'trace-blue',
+			'trace-red',
+			'trace-green',
+			'trace-yellow'
+		].forEach(function(class_) {
+			util.removeClass(L[i], class_);
+		});
+	}
+}
+
+function supprimerTrace(caseElement) {
+	[
+		'trace',
+		'trace-blue',
+		'trace-red',
+		'trace-green',
+		'trace-yellow'
+	].forEach(function(class_) {
+		util.removeClass(caseElement, class_);
+	});
 }
 
 // affiche les cases accessibles d'un robot
@@ -569,6 +682,7 @@ function reinitialiserRobots() {
 function recommencer() {
 	proposition.length = 0;
 	masquerCasesAccessibles();
+	supprimerTraces();
 	reinitialiserRobots();
 	supprimerClicRobots();
 	supprimerClicDestinations();

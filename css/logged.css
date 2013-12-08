@@ -15,6 +15,10 @@ body > section {
 	margin: 0;
 }
 
+footer {
+	font-style: italic;
+}
+
 #partie {
 	width: 50%;
 	height: 100%;
@@ -50,10 +54,18 @@ body > section {
 	display: none;
 }	
 
+#message {
+	display: none;
+}
+
 .login {
 	font-weight: bold;
 }
 
-footer {
-	font-style: italic;
+.error {
+	color: red;
+}
+
+.info {
+	color: green;
 }

@@ -32,6 +32,7 @@
 	border-right: 1px solid black;
 }
 
+<<<<<<< HEAD
 /* case accessible */
 .plateau td.accessible {
 	background-color: #ecf0f1;
@@ -54,6 +55,8 @@
 	background-color: #f1c40f;
 }
 
+=======
+>>>>>>> dc39724fc9f9a6f5cbd1bce2f5623c6aee927d16
 /* robot */
 .plateau .robot {
 	display: block;
@@ -78,7 +81,8 @@
 	border: 1px solid black;
 }
 
-.plateau .robot.deplace {
+
+#plateau .robot.deplace:not(.dernier-deplace) {
 	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.7) inset;
 }
 .plateau .robot.deplace.blue {
@@ -93,6 +97,7 @@
 .plateau .robot.deplace.yellow {
 	background-color: #f39c12;
 }
+
 
 #lesParties .plateau {
 	width: 112px;
@@ -111,4 +116,43 @@
 #lesParties .plateau .robot{
 	width: 4px;
 	height: 4px;
+
+/* case accessible */
+#plateau td.accessible {
+	background-color: #ecf0f1;
+}
+
+#plateau  td.trace-blue {
+	background-color: #bccfdb;
+}
+
+#plateau  td.trace-yellow {
+	background-color: #f1eacf;
+}
+
+#plateau  td.trace-red {
+	background-color: #e7cac7;
+}
+
+#plateau  td.trace-green {
+	background-color: #afccbc;
+}
+
+
+#plateau td.destination {
+	background-color: #bdc3c7;
+}
+
+/* cibles */
+#plateau td.cible.blue {
+	background-color: #3498db;
+}
+#plateau td.cible.red {
+	background-color: #e74c3c;
+}
+#plateau td.cible.green {
+	background-color: #2ecc71;
+}
+#plateau td.cible.yellow {
+	background-color: #f1c40f;
 }
