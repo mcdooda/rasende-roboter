@@ -44,6 +44,8 @@ function init() {
 			return false;
 		}
 	});
+	
+	util.detectTouch();
 }
 
 

@@ -79,5 +79,7 @@ function init() {
 		}
 		
 	});
+	
+	util.detectTouch();
 }
 

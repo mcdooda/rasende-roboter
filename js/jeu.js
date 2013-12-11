@@ -711,4 +711,18 @@ function afficherGagnant() {
 	util.addClass(L[imin], 'gagnant');
 }
 
+// affiche/affiche le panneau lateral en touch
+function afficherMasquerInfosTouch() {
+	var infos = document.getElementById('infos');
+	if (infos.style.display == 'block') {
+		infos.style.display = 'none';
+	} else {
+		infos.style.display = 'block';
+	}
+}
 
+// masque le panneau touch
+function masquerInfosTouch() {
+	var infos = document.getElementById('infos');
+	infos.style.display = 'none';
+}

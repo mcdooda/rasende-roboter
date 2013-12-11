@@ -96,6 +96,21 @@
 
 #plateau td.destination {
 	background-color: #bdc3c7;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 70%;
+}
+#plateau td.destination-h {
+	background-image: url(../img/fleche-h.png);
+}
+#plateau td.destination-d {
+	background-image: url(../img/fleche-d.png);
+}
+#plateau td.destination-b {
+	background-image: url(../img/fleche-b.png);
+}
+#plateau td.destination-g {
+	background-image: url(../img/fleche-g.png);
 }
 
 /* cibles */
