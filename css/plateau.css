@@ -196,26 +196,16 @@
 }
 
 /* fisheyes */
-#lesParties .plateau {
-	width: 112px;
-	height: 112px;
-}
-
-#lesParties .plateau tr{
-	width: 112px;
-}
-
-#lesParties .plateau td{
-	width: 7px;
+#thumb .plateau td {
 	height: 7px;
 }
 
-#lesParties .plateau .robot{
+#thumb .plateau .robot {
 	width: 4px;
 	height: 4px;
 }
 
-#lesParties div{
+#thumb {
 	width: 120px;
 	height: 120px;
 	float : initial;

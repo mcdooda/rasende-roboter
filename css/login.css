@@ -11,16 +11,15 @@ footer {
 }
 
 /* fisheyes */
-#lesParties a div{
-	display: none;
+#lesParties {
+	position: relative;
+	
 }
 
-#lesParties a:hover div{
-	display: block;
+#thumb div {
+	display: none;
 }
 
 #lesParties a:hover {
 	font-size: 150%;
 }
-
-

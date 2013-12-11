@@ -19,25 +19,36 @@ function init() {
 	socket.on('gamesList', function(data) {
 
 		var ul = document.getElementById('lesParties');
+		var thumbDiv = document.getElementById('thumb');
 		ul.innerHTML='';
+		thumbDiv.innerHTML='';
 		if(data.gamesList.length > 0)
 	        {
 			for(p in data.gamesList) {
+				  var gameName = data.gamesList[p];
 			      var li = document.createElement('li'); 
 			      ul.appendChild( li );
 			      var a = document.createElement('a');
 			      a.setAttribute('href', '#');
 			      a.addEventListener('click', function() {
-				      document.getElementById('idGame').value = data.gamesList[p];
+				      document.getElementById('idGame').value = gameName;
 				      document.getElementById('nouvellePartie').submit();
 				      return false;
 			      });
-			      a.appendChild( document.createTextNode( data.gamesList[p] ) );
+			      a.appendChild( document.createTextNode(gameName) );
 			      var div = document.createElement('div');
 			      //span.setAttribute
-			      getImgPart(data.gamesList[p], div);
-			      a.appendChild(div);
+			      getImgPart(gameName, div);
+			      thumbDiv.appendChild(div);
 			      li.appendChild(a);
+				  (function(div) {
+					  a.addEventListener('mouseover', function() {
+						showThumb(div, true);
+					  });
+					  a.addEventListener('mouseout', function() {
+						showThumb(div, false);
+					  });
+				  })(div);
 
 		      }
 	      } else {
@@ -74,7 +85,7 @@ function getImgPart(name, span){
 		onload: function() {
 			var data = JSON.parse(this.responseText);
 			//console.log('data', data);
-			afficherPlateau(data, span);
+			afficherPlateau(data, span, 'game-' + name);
 		}
 		
 	});
@@ -82,4 +93,7 @@ function getImgPart(name, span){
   
 }
 
-
+function showThumb(elem, value) {
+console.log(elem);
+	elem.style.display = (value ? 'block' : 'none');
+}
