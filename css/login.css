@@ -10,4 +10,17 @@ footer {
 	font-style: italic;
 }
 
+/* fisheyes */
+#lesParties a div{
+	display: none;
+}
+
+#lesParties a:hover div{
+	display: block;
+}
+
+#lesParties a:hover {
+	font-size: 150%;
+}
+
 

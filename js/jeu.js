@@ -1,10 +1,12 @@
 var proposition = [];
 
 // construction du tableau contenant le plateau de jeu
-function afficherPlateau(plateau) {
+function afficherPlateau(plateau, conteneur, id) {
 	var table = document.createElement('table');
-	table.setAttribute('id', 'plateau');
-	
+	table.setAttribute('class', 'plateau');
+	if(id){
+	    table.setAttribute('id', id);
+	}
 	var robots = {};
 	plateau.robots.forEach(function(robot) {
 		if (!(robot.line in robots)) {
@@ -29,6 +31,7 @@ function afficherPlateau(plateau) {
 			for (var mur in casePlateau) {
 				classes.push(mur);
 			}
+			
 			
 
 			if (ligne == plateau.target.l && colonne == plateau.target.c) {
@@ -56,35 +59,39 @@ function afficherPlateau(plateau) {
 	}
 	table.appendChild(tbody);
 	
-	document.getElementById('partie').appendChild(table);
-	
-	var redimensionner = function() {
-		var partie = document.getElementById('partie');
-		var largeurPlateau;
-		var ratio = 0.96;
-		if (partie.offsetWidth < partie.offsetHeight) {
-			largeurPlateau = partie.offsetWidth * ratio;
-			table.style.width = largeurPlateau + 'px';
-			table.style.height = largeurPlateau + 'px';
-		} else {
-			largeurPlateau = partie.offsetHeight * ratio;
-			table.style.width = largeurPlateau + 'px';
-			table.style.height = largeurPlateau + 'px';
-		}
-		var largeurCase = largeurPlateau / 16;
-		var L = table.querySelectorAll('tr, td');
-		for (var i = 0; i < L.length; i++) {
-			L[i].style.height = largeurCase + 'px';
-		}
-		var largeurRobot = (largeurCase - 1) * 0.8;
-		var M = table.querySelectorAll('.robot');
-		for (var i = 0; i < M.length; i++) {
-			M[i].style.height = largeurRobot + 'px';
-			M[i].style.width  = largeurRobot + 'px';
-		}
-	};
-	redimensionner();
-	addEventListener('resize', redimensionner);
+	conteneur.appendChild(table);
+	var partie = document.getElementById('partie');
+	if(partie){
+		var redimensionner = function() {
+			var partie = document.getElementById('partie');
+			var largeurPlateau;
+			var ratio = 0.96;
+			if (partie.offsetWidth < partie.offsetHeight) {
+				largeurPlateau = partie.offsetWidth * ratio;
+				table.style.width = largeurPlateau + 'px';
+				table.style.height = largeurPlateau + 'px';
+			} else {
+				largeurPlateau = partie.offsetHeight * ratio;
+				table.style.width = largeurPlateau + 'px';
+				table.style.height = largeurPlateau + 'px';
+			}
+			var largeurCase = largeurPlateau / 16;
+			var L = table.querySelectorAll('tr, td');
+			for (var i = 0; i < L.length; i++) {
+				L[i].style.height = largeurCase + 'px';
+			}
+			var largeurRobot = (largeurCase - 1) * 0.8;
+			var M = table.querySelectorAll('.robot');
+			for (var i = 0; i < M.length; i++) {
+				M[i].style.height = largeurRobot + 'px';
+				M[i].style.width  = largeurRobot + 'px';
+			}
+		};
+		
+
+		redimensionner();
+		addEventListener('resize', redimensionner);
+	}
 }
 
 // fonction appelee lors du clic sur un robot
