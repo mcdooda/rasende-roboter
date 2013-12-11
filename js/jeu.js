@@ -224,6 +224,7 @@ function deplacerRobot(robotElement, caseElement) {
 	var dernierDeplace = getDernierRobotDeplace();
 	if (dernierDeplace != null) {
 		util.removeClass(dernierDeplace, 'dernier-deplace');
+		util.removeClass(getToucheTactile(dernierDeplace), 'dernier-deplace');
 	}
 	
 	if (dernierDeplace != robotElement) {
@@ -241,8 +242,12 @@ function deplacerRobot(robotElement, caseElement) {
 	});
 	trace(robotElement, caseElement);
 	util.moveTo(robotElement, caseElement);
+	
 	util.addClass(robotElement, 'deplace');
 	util.addClass(robotElement, 'dernier-deplace');
+	util.addClass(getToucheTactile(robotElement), 'deplace');
+	util.addClass(getToucheTactile(robotElement), 'dernier-deplace');
+	
 	supprimerClicRobotsDeplaces();
 	supprimerClicDestinations();
 	masquerCasesAccessibles();
@@ -355,12 +360,14 @@ function masquerSelection() {
 	var selection = getRobotSelectionne();
 	if (selection != null) {
 		util.removeClass(selection, 'selection');
+		util.removeClass(getToucheTactile(selection), 'selection');
 	}
 }
 
 // affiche l'effet de selection sur un robot
 function afficherSelection(robotElement) {
 	util.addClass(robotElement, 'selection');
+	util.addClass(getToucheTactile(robotElement), 'selection');
 }
 
 // fonction appelee lors du drag d'un robot
@@ -655,7 +662,10 @@ function selectionnerRobotSuivant() {
 
 // selection du robot de la couleur donnee
 function selectionnerRobotCouleur(couleur) {
-	selectionnerRobot(document.querySelector('.robot.' + couleur));
+	var robotElement = document.querySelector('#plateau .robot.' + couleur + ':not(.deplace), #plateau .robot.' + couleur + '.dernier-deplace');
+	if (robotElement != null) {
+		selectionnerRobot(robotElement);
+	}
 }
 
 // deplacer un robot dans une direction donnee (touches directionnelles)
@@ -700,6 +710,10 @@ function appuiTouche(e) {
 		e.preventDefault();
 		break;
 	}
+}
+
+function getToucheTactile(robotElement) {
+	return document.querySelector('.bouton.' + getCouleur(robotElement));
 }
 
 // ajoute les evenements sur les touches pour ecran tactile
@@ -801,7 +815,7 @@ function supprimerSwipe() {
 
 // reinitialise les positions initiales des robots
 function reinitialiserRobots() {
-	var L = document.querySelectorAll('#plateau .robot');
+	var L = document.querySelectorAll('#plateau .robot, #boutons .bouton');
 	for (var i = 0; i < L.length; i++) {
 		[
 			'deplace',
@@ -810,7 +824,9 @@ function reinitialiserRobots() {
 		].forEach(function(class_) {
 			util.removeClass(L[i], class_);
 		});
-		util.moveTo(L[i], getCase(L[i].getAttribute('data-ligne-origine'), L[i].getAttribute('data-colonne-origine')));
+		if (util.hasClass(L[i], 'robot')) {
+			util.moveTo(L[i], getCase(L[i].getAttribute('data-ligne-origine'), L[i].getAttribute('data-colonne-origine')));
+		}
 	}
 }
 

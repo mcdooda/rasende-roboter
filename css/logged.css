@@ -38,17 +38,38 @@ footer {
 	border-radius: 100%;
 	display: block;
 }
-#boutons .bouton.yellow {
-	background-color: #f1c40f;
+#boutons .bouton.blue {
+	background-color: #3498db;
 }
 #boutons .bouton.red {
 	background-color: #e74c3c;
 }
-#boutons .bouton.blue {
-	background-color: #3498db;
-}
 #boutons .bouton.green {
 	background-color: #2ecc71;
+}
+#boutons .bouton.yellow {
+	background-color: #f1c40f;
+}
+
+#boutons .bouton.selection {
+	border: 1px solid black;
+	margin: -1px;
+}
+
+#boutons .bouton.deplace:not(.dernier-deplace) {
+	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.7) inset;
+}
+#boutons .bouton.deplace.blue {
+	background-color: #2980b9;
+}
+#boutons .bouton.deplace.red {
+	background-color: #c0392b;
+}
+#boutons .bouton.deplace.green {
+	background-color: #27ae60;
+}
+#boutons .bouton.deplace.yellow {
+	background-color: #f39c12;
 }
 
 #commandes-touch {
