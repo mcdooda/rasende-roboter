@@ -128,17 +128,7 @@
 }
 
 /* fisheyes */
-#thumb .plateau {
-	width: 112px;
-	height: 112px;
-}
-
-#thumb .plateau tr {
-	width: 112px;
-}
-
 #thumb .plateau td {
-	width: 7px;
 	height: 7px;
 }
 
