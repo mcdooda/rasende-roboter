@@ -8,14 +8,24 @@
 
 footer {
 	font-style: italic;
+	clear: left;
+}
+
+#champIdGame > div{
+	float: left;
+	border: solid black 1px;
 }
 
 /* fisheyes */
 #lesParties {
 	position: relative;
-	
 }
 
+#thumb {
+	margin: auto;
+	width: 120px;
+	height: 150px;
+}
 #thumb div {
 	display: none;
 }
