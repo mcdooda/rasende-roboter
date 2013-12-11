@@ -41,7 +41,6 @@ function init() {
 	socket.on('FinalCountDown'	, function(data) {
 		document.getElementById('count').style.display = 'block';
 		var ms   = data.FinalCountDown;
-		console.log("FinalCountDown : " + ms);
 		
 		var iv = setInterval(function() {
 			ms -= 1000;
@@ -60,7 +59,6 @@ function init() {
 		afficherGagnant();
 		});
 	socket.on('solutions'		, function(data) {
-		console.log("Solutions are :\n"+JSON.stringify(data.solutions));
 		data.solutions.forEach(afficherScore);
 		});
 	socket.emit ('identification', 	{ login	: getLogin()
@@ -71,15 +69,16 @@ function init() {
 	
 		onload: function() {
 			var data = JSON.parse(this.responseText);
-			console.log('data', data);
 			
 			afficherPlateau(data, document.getElementById('partie'), 'plateau');
 			ajouterClicRobots();
 			ajouterTouches();
+			ajouterRedimensionnement();
+			util.detectTouch();
+			document.body.className='touch';
+			redimensionner();
 		}
 		
 	});
-	
-	util.detectTouch();
 }
 

@@ -13,13 +13,57 @@
 		<meta name="viewport" content="width=device-width" />
 	</head>
 	<body onload="init()">
-		<section id="commandes-touch">
+		<section id="commandes-touch" class="touch-active">
 			<a href="#" id="bouton-touch" onclick="afficherMasquerInfosTouch();">
 				<span /><span /><span />
 			</a>
 		</section>
 		<section id="partie" />
-		<section id="infos">
+		<section id="commandes-jeu-touch" class="touch-active">
+			<section id="fleches">
+				<table>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><img src="img/fleche-h.png" alt="Haut" /></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><img src="img/fleche-g.png" alt="Gauche" /></td>
+							<td></td>
+							<td><img src="img/fleche-d.png" alt="Droite" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><img src="img/fleche-b.png" alt="Haut" /></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+			<section id="boutons">
+				<table>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><span class="bouton blue" /></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><span class="bouton green" /></td>
+							<td></td>
+							<td><span class="bouton red" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><span class="bouton yellow" /></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</section>
+		<section id="infos" class="touch-desactive">
 			<header>
 				<h1>Partie __IDGAME__ __STATE__</h1>
 				<p>Vous êtes connecté en tant que <span class="login">__LOGIN__</span></p>
@@ -38,9 +82,9 @@
 				<p id="message"></p>
 			</section>
 			<footer>
-				<span class="astuce-clavier">
+				<div class="touch-desactive">
 					Actuce : Naviguez entre les robots avec la barre d'espace, et déplacez-les avec les touches directionnelles.
-				</span>
+				</div>
 			</footer>
 		</section>
 	</body>

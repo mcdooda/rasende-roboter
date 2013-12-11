@@ -60,37 +60,59 @@ function afficherPlateau(plateau, conteneur, id) {
 	table.appendChild(tbody);
 	
 	conteneur.appendChild(table);
-	var partie = document.getElementById('partie');
-	if(partie){
-		var redimensionner = function() {
-			var partie = document.getElementById('partie');
-			var largeurPlateau;
-			var ratio = 0.96;
-			if (partie.offsetWidth < partie.offsetHeight) {
-				largeurPlateau = partie.offsetWidth * ratio;
-				table.style.width = largeurPlateau + 'px';
-				table.style.height = largeurPlateau + 'px';
-			} else {
-				largeurPlateau = partie.offsetHeight * ratio;
-				table.style.width = largeurPlateau + 'px';
-				table.style.height = largeurPlateau + 'px';
-			}
-			var largeurCase = largeurPlateau / 16;
-			var L = table.querySelectorAll('tr, td');
-			for (var i = 0; i < L.length; i++) {
-				L[i].style.height = largeurCase + 'px';
-			}
-			var largeurRobot = (largeurCase - 1) * 0.8;
-			var M = table.querySelectorAll('.robot');
-			for (var i = 0; i < M.length; i++) {
-				M[i].style.height = largeurRobot + 'px';
-				M[i].style.width  = largeurRobot + 'px';
-			}
-		};
-		
+}
 
-		redimensionner();
-		addEventListener('resize', redimensionner);
+function ajouterRedimensionnement() {
+	addEventListener('resize', redimensionner);
+}
+
+// fonction appelee lors du redimensionnement
+function redimensionner() {
+	var partie = document.getElementById('partie');
+	if (partie) {
+		var plateau = document.getElementById('plateau');
+		var largeurPlateau;
+		var ratio = 0.96;
+		if (partie.offsetWidth < partie.offsetHeight) {
+			largeurPlateau = partie.offsetWidth * ratio;
+			plateau.style.width = largeurPlateau + 'px';
+			plateau.style.height = largeurPlateau + 'px';
+		} else {
+			largeurPlateau = partie.offsetHeight * ratio;
+			plateau.style.width = largeurPlateau + 'px';
+			plateau.style.height = largeurPlateau + 'px';
+		}
+		var largeurCase = largeurPlateau / 16;
+	
+		var L = plateau.querySelectorAll('tr, td');
+		for (var i = 0; i < L.length; i++) {
+			L[i].style.height = largeurCase + 'px';
+		}
+		var largeurRobot = (largeurCase - 1) * 0.8;
+		var M = plateau.querySelectorAll('.robot');
+		for (var i = 0; i < M.length; i++) {
+			M[i].style.height = largeurRobot + 'px';
+			M[i].style.width  = largeurRobot + 'px';
+		}
+	
+		var N = document.querySelectorAll('#fleches, #boutons');
+		for (var i = 0; i < N.length; i++) {
+			var largeurConteneur = N[i].offsetWidth;
+			var hauteurConteneur = N[i].offsetHeight;
+			var table = N[i].querySelector('table');
+			var hauteurBouton;
+			if (largeurConteneur < hauteurConteneur) {
+				hauteurBouton = largeurConteneur / 3.3;
+			} else {
+				hauteurBouton = hauteurConteneur / 3.3;
+			}
+		
+			var P = table.querySelectorAll('img, .bouton');
+			for (var j = 0; j < P.length; j++) {
+				P[j].style.width = hauteurBouton + 'px';
+				P[j].style.height = hauteurBouton + 'px';
+			}
+		}
 	}
 }
 
@@ -179,6 +201,7 @@ function deplacerRobot(robotElement, caseElement) {
 		supprimerClicRobots();
 		supprimerTouches();
 		envoyerProposition();
+		util.vibrate(1500);
 	} else {
 		afficherCasesAccessibles(robotElement);
 		ajouterClicDestinations();
@@ -194,9 +217,7 @@ function envoyerProposition() {
 		},
 		
 		onload: function(event) {
-			console.log(this.responseText);
 			var data = JSON.parse(this.responseText);
-			console.log(data);
 			
 			var messageElem = document.getElementById('message');
 			switch(data.state) {
@@ -720,16 +741,30 @@ function afficherGagnant() {
 
 // affiche/affiche le panneau lateral en touch
 function afficherMasquerInfosTouch() {
-	var infos = document.getElementById('infos');
-	if (infos.style.display == 'block') {
-		infos.style.display = 'none';
-	} else {
-		infos.style.display = 'block';
+	if (util.hasClass(document.body, 'touch')) {
+		var infos = document.getElementById('infos');
+		if (infos.style.display == 'block') {
+			masquerInfosTouch();
+		} else {
+			afficherInfosTouch();
+		}
 	}
 }
 
 // masque le panneau touch
 function masquerInfosTouch() {
-	var infos = document.getElementById('infos');
-	infos.style.display = 'none';
+	if (util.hasClass(document.body, 'touch')) {
+		var infos = document.getElementById('infos');
+		infos.style.display = 'none';
+	}
 }
+
+// affiche le panneau touch
+function afficherInfosTouch() {
+	if (util.hasClass(document.body, 'touch')) {
+		var infos = document.getElementById('infos');
+		infos.style.display = 'block';
+	}
+}
+
+
