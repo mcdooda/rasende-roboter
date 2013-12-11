@@ -10,11 +10,12 @@ footer {
 	font-style: italic;
 }
 
-#lesParties a span{
+/* fisheyes */
+#lesParties a div{
 	display:none;
 }
 
-#lesParties a:hover span{
+#lesParties a:hover div{
 	display:block;
 }
 

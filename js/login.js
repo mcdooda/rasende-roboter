@@ -33,10 +33,10 @@ function init() {
 				      return false;
 			      });
 			      a.appendChild( document.createTextNode( data.gamesList[p] ) );
-			      var span = document.createElement('span');
+			      var div = document.createElement('div');
 			      //span.setAttribute
-			      getImgPart(data.gamesList[p], span);
-			      a.appendChild(span);
+			      getImgPart(data.gamesList[p], div);
+			      a.appendChild(div);
 			      li.appendChild(a);
 
 		      }
