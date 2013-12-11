@@ -8,9 +8,10 @@
 		<script src="js/util.js"></script>
 		<script src="js/login.js"></script>
 		<script src="js/jeu.js"></script>
+		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/general.css" />
 		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/login.css" />
 		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/plateau.css" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 	</head>
 	<body onload="init()">
 		<header>
@@ -20,24 +21,44 @@
 			<nav>
 				<form method="post" action="" id="nouvellePartie">
 					<div id="champLogin">
-						<label for="login">Entrez votre nom : </label>
-						<input type="text" name="login" id="login"/>
-						<input type="submit" value="Se connecter !" />
+						<div class="panel">
+							<div class="panel-titre">
+								<label for="login">Pseudonyme : </label>
+							</div>
+							<div class="panel-contenu">
+								<input type="text" name="login" id="login" placeholder="Pseudonyme" />
+								<input type="submit" value="Connexion" />
+							</div>
+						</div>
 					</div>
 					<div id="champIdGame">
-						Selectionner une partie :
-						<ul id="lesParties"/>
-						<label for="idGame">Ou taper le nom d'une nouvelle partie : </label>
-						<input type="text" name="idGame" id="idGame"/>
-						<input type="submit" value="Nouveau jeu !" />
+						<div id="nouvellePartie">
+							<div class="panel">
+								<div class="panel-titre">
+									<label for="idGame">Créer une nouvelle partie : </label>
+								</div>
+								<div class="panel-contenu">
+									<input type="text" name="idGame" id="idGame" placeholder="Nom de la partie" />
+									<input type="submit" value="Jouer" />
+								</div>
+							</div>
+						</div>
+						<div id="selectionPartie">
+							<div class="panel">
+								<div class="panel-titre">
+									Ou sélectionner une partie :
+								</div>
+								<div class="panel-contenu">
+									<ul id="lesParties"/>
+								</div>
+							</div>
+							<div id="thumb" />
+						</div>
 					</div>
 				</form>
 			</nav>
 			<section id="detailPartie" />
 		</section>
-		<footer>
-			Coolest robots
-		</footer>
 	</body>
 </html>
 

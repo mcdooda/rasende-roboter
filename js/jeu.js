@@ -138,32 +138,80 @@ function trace(robot, caseArrivee){
 	var direction = getDirection(caseArrivee);
 	switch(direction){
 		case 'd':
-			for(var i = getCoordonneesCase(caseCourante).colonne; i <= getCoordonneesCase(caseArrivee).colonne;i++){
-				supprimerTrace(getCase(getCoordonneesCase(caseCourante).ligne,i));
-				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace');
-				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace-'+couleur);
+			var trace = document.createElement('span');
+			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+			util.addClass(trace,'trace');
+			util.addClass(trace,'trace-'+couleur);
+			util.addClass(trace,'trace-arrivee-g');
+			for(var i = getCoordonneesCase(caseCourante).colonne+1; i < getCoordonneesCase(caseArrivee).colonne;i++){
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,i).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-d');
 			}
+			var trace = document.createElement('span');
+			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseArrivee).colonne).appendChild(trace);
+			util.addClass(trace,'trace');
+			util.addClass(trace,'trace-'+couleur);
+			util.addClass(trace,'trace-arrivee-d');
 		break;
 		case 'g':
-			for(var i = getCoordonneesCase(caseArrivee).colonne; i <= getCoordonneesCase(caseCourante).colonne;i++){
-				supprimerTrace(getCase(getCoordonneesCase(caseCourante).ligne,i));
-				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace');
-				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace-'+couleur);
+			var trace = document.createElement('span');
+			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseArrivee).colonne).appendChild(trace);
+			util.addClass(trace,'trace');
+			util.addClass(trace,'trace-'+couleur);
+			util.addClass(trace,'trace-arrivee-g');
+			for(var i = getCoordonneesCase(caseArrivee).colonne+1; i < getCoordonneesCase(caseCourante).colonne;i++){
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,i).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-g');
 			}
+			var trace = document.createElement('span');
+			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+			util.addClass(trace,'trace');
+			util.addClass(trace,'trace-'+couleur);
+			util.addClass(trace,'trace-arrivee-d');
 		break;
 		case 'b':
-			for(var i = getCoordonneesCase(caseCourante).ligne; i <= getCoordonneesCase(caseArrivee).ligne;i++){
-				supprimerTrace(getCase(i,getCoordonneesCase(caseCourante).colonne));			
-				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace');
-				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace-'+couleur);
+			var trace = document.createElement('span');
+			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+			util.addClass(trace,'trace');
+			util.addClass(trace,'trace-'+couleur);
+			util.addClass(trace,'trace-arrivee-h');
+			for(var i = getCoordonneesCase(caseCourante).ligne+1; i < getCoordonneesCase(caseArrivee).ligne;i++){
+				var trace = document.createElement('span');
+				getCase(i,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-b');
 			}
+			var trace = document.createElement('span');
+			getCase(getCoordonneesCase(caseArrivee).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+			util.addClass(trace,'trace');
+			util.addClass(trace,'trace-'+couleur);
+			util.addClass(trace,'trace-arrivee-b');
 		break;
 		case 'h':
-			for(var i = getCoordonneesCase(caseArrivee).ligne; i <= getCoordonneesCase(caseCourante).ligne;i++){
-				supprimerTrace(getCase(i,getCoordonneesCase(caseCourante).colonne));
-				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace');
-				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace-'+couleur);
+			var trace = document.createElement('span');
+			getCase(getCoordonneesCase(caseArrivee).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+			util.addClass(trace,'trace');
+			util.addClass(trace,'trace-'+couleur);
+			util.addClass(trace,'trace-arrivee-h');
+			for(var i = getCoordonneesCase(caseArrivee).ligne+1; i < getCoordonneesCase(caseCourante).ligne;i++){
+				var trace = document.createElement('span');
+				getCase(i,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-h');
 			}
+			var trace = document.createElement('span');
+			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+			util.addClass(trace,'trace');
+			util.addClass(trace,'trace-'+couleur);
+			util.addClass(trace,'trace-arrivee-b');
 		break;
 	}
 }
@@ -198,14 +246,19 @@ function deplacerRobot(robotElement, caseElement) {
 	masquerCasesAccessibles();
 	
 	if (util.hasClass(caseElement, 'cible') && getCouleur(caseElement) == couleurRobot) {
-		supprimerClicRobots();
-		supprimerTouches();
+		arreterPartie();
 		envoyerProposition();
 		util.vibrate(1500);
 	} else {
 		afficherCasesAccessibles(robotElement);
 		ajouterClicDestinations();
 	}
+}
+
+function arreterPartie() {
+	supprimerClicRobots();
+	supprimerTouches();
+	document.getElementById('bouton-recommencer').style.display = 'none';
 }
 
 function envoyerProposition() {
@@ -439,15 +492,9 @@ function masquerCasesAccessibles() {
 function supprimerTraces() {
 	var L = document.querySelectorAll('#plateau .trace');
 	for (var i = 0; i < L.length; i++) {
-		[
-			'trace',
-			'trace-blue',
-			'trace-red',
-			'trace-green',
-			'trace-yellow'
-		].forEach(function(class_) {
-			util.removeClass(L[i], class_);
-		});
+			var elem = L[i];
+			var parent = elem.parentNode;
+			parent.removeChild(elem);
 	}
 }
 
@@ -604,6 +651,11 @@ function selectionnerRobotSuivant() {
 	}
 }
 
+// selection du robot de la couleur donnee
+function selectionnerRobotCouleur(couleur) {
+	selectionnerRobot(document.querySelector('.robot.' + couleur));
+}
+
 // deplacer un robot dans une direction donnee (touches directionnelles)
 function deplacerRobotDirection(direction) {
 	var selection = getRobotSelectionne();
@@ -616,7 +668,7 @@ function deplacerRobotDirection(direction) {
 // fonction appelee lors de l'appui sur une touche du clavier
 function appuiTouche(e) {
 	switch (e.keyCode || e.charCode) {
-		case 27: // echap
+		case 82: // R
 		recommencer();
 		e.preventDefault();
 		break;
@@ -648,14 +700,75 @@ function appuiTouche(e) {
 	}
 }
 
+// ajoute les evenements sur les touches pour ecran tactile
+function ajouterTouchesTactiles() {
+	document.querySelector('.fleche.h').addEventListener('touchstart', clicToucheTactileH);
+	document.querySelector('.fleche.g').addEventListener('touchstart', clicToucheTactileG);
+	document.querySelector('.fleche.d').addEventListener('touchstart', clicToucheTactileD);
+	document.querySelector('.fleche.b').addEventListener('touchstart', clicToucheTactileB);
+	
+	document.querySelector('.bouton.blue'  ).addEventListener('touchstart', clicToucheTactileBlue);
+	document.querySelector('.bouton.green' ).addEventListener('touchstart', clicToucheTactileGreen);
+	document.querySelector('.bouton.red'   ).addEventListener('touchstart', clicToucheTactileRed);
+	document.querySelector('.bouton.yellow').addEventListener('touchstart', clicToucheTactileYellow);
+}
+
+// supprime les evenements sur les touches pour ecran tactile
+function supprimerTouchesTactiles() {
+	document.querySelector('.fleche.h').removeEventListener('touchstart', clicToucheTactileH);
+	document.querySelector('.fleche.g').removeEventListener('touchstart', clicToucheTactileG);
+	document.querySelector('.fleche.d').removeEventListener('touchstart', clicToucheTactileD);
+	document.querySelector('.fleche.b').removeEventListener('touchstart', clicToucheTactileB);
+	
+	document.querySelector('.bouton.blue'  ).removeEventListener('touchstart', clicToucheTactileBlue);
+	document.querySelector('.bouton.green' ).removeEventListener('touchstart', clicToucheTactileGreen);
+	document.querySelector('.bouton.red'   ).removeEventListener('touchstart', clicToucheTactileRed);
+	document.querySelector('.bouton.yellow').removeEventListener('touchstart', clicToucheTactileYellow);
+}
+
+function clicToucheTactileH() {
+	deplacerRobotDirection('h');
+}
+
+function clicToucheTactileG() {
+	console.log('G');
+	deplacerRobotDirection('g');
+}
+
+function clicToucheTactileD() {
+	deplacerRobotDirection('d');
+}
+
+function clicToucheTactileB() {
+	deplacerRobotDirection('b');
+}
+
+function clicToucheTactileBlue() {
+	selectionnerRobotCouleur('blue');
+}
+
+function clicToucheTactileGreen() {
+	selectionnerRobotCouleur('green');
+}
+
+function clicToucheTactileRed() {
+	selectionnerRobotCouleur('red');
+}
+
+function clicToucheTactileYellow() {
+	selectionnerRobotCouleur('yellow');
+}
+
 // ajoute l'evenement touche appuyee
 function ajouterTouches() {
 	document.addEventListener('keydown', appuiTouche);
+	ajouterTouchesTactiles();
 }
 
 // supprime l'evenement touche appuyee
 function supprimerTouches() {
 	document.removeEventListener('keydown', appuiTouche);
+	supprimerTouchesTactiles();
 }
 
 // ajoute les evenements swipe sur le plateau
@@ -764,6 +877,21 @@ function afficherInfosTouch() {
 	if (util.hasClass(document.body, 'touch')) {
 		var infos = document.getElementById('infos');
 		infos.style.display = 'block';
+		
+		var etapes = 10;
+		var duree = 150;
+		
+		var left = -80;
+		infos.style.left = left + '%';
+		var deplacer = function() {
+			left += 80 / etapes;
+			if (left >= 0) {
+				left = 0;
+				clearInterval(iv);
+			}
+			infos.style.left = left + '%';
+		};
+		var iv = setInterval(deplacer, duree / etapes);
 	}
 }
 

@@ -55,8 +55,9 @@ function init() {
 		});
 	socket.on('TerminateGame'	, function(data) {
 		h1 = document.querySelector('#infos > header > h1');
-		h1.innerHTML += ' est terminée !';
+		h1.innerHTML += ' est terminée';
 		afficherGagnant();
+		arreterPartie();
 		});
 	socket.on('solutions'		, function(data) {
 		data.solutions.forEach(afficherScore);
@@ -70,12 +71,11 @@ function init() {
 		onload: function() {
 			var data = JSON.parse(this.responseText);
 			
+			util.detectTouch();
 			afficherPlateau(data, document.getElementById('partie'), 'plateau');
 			ajouterClicRobots();
 			ajouterTouches();
 			ajouterRedimensionnement();
-			util.detectTouch();
-			document.body.className='touch';
 			redimensionner();
 		}
 		

@@ -8,19 +8,35 @@
 
 footer {
 	font-style: italic;
+	clear: left;
+}
+
+#champIdGame > div {
+	float: left;
+	width: 50%;
+}
+
+@media(max-width: 768px) {
+	#champIdGame > div {
+		float: none;
+		width: auto;
+	}
 }
 
 /* fisheyes */
-#lesParties a div{
-	display: none;
+#lesParties {
+	position: relative;
 }
 
-#lesParties a:hover div{
-	display: block;
+#thumb {
+	margin: auto;
+	width: 120px;
+	height: 150px;
+}
+#thumb div {
+	display: none;
 }
 
 #lesParties a:hover {
 	font-size: 150%;
 }
-
-
