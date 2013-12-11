@@ -17,6 +17,7 @@
 
 /* murs */
 .plateau td {
+		position: relative;
         border: 1px dotted #bdc3c7;
 }
 .plateau td.g {
@@ -34,9 +35,11 @@
 
 /* robot */
 .plateau .robot {
+		position: relative;
         display: block;
         margin: auto;
         border-radius: 100%;
+		z-index: 7;
 }
 .plateau .robot.blue {
         background-color: #3498db;
@@ -77,20 +80,85 @@
         background-color: #ecf0f1;
 }
 
-.plateau td.trace-blue {
-        background-color: #bccfdb;
+.plateau td .trace{
+	position: absolute;
+	z-index: 6;
+	display: block;
+	margin: 0;
 }
 
-.plateau td.trace-yellow {
-        background-color: #f1eacf;
+.plateau td .trace.trace-d, .plateau td .trace.trace-g{
+	width: 100%;
+	height: 0;
+	top: 49%;
+	left:0;
 }
 
-.plateau td.trace-red {
-        background-color: #e7cac7;
+.plateau td .trace.trace-arrivee-d, .plateau td .trace.trace-arrivee-g{
+	width: 50%;
+	height: 0;
+	top: 49%;
 }
 
-.plateau td.trace-green {
-        background-color: #afccbc;
+.plateau td .trace.trace-arrivee-d{
+	left:0;
+}
+
+.plateau td .trace.trace-arrivee-g{
+	left:50%;
+}
+
+.plateau td .trace.trace-h, .plateau td .trace.trace-b{
+	width: 0;
+	height: 100%;
+	left: 49%;
+	top:0;
+}
+
+.plateau td .trace.trace-arrivee-h, .plateau td .trace.trace-arrivee-b{
+	width: 0;
+	height: 50%;
+	left: 49%;
+}
+
+.plateau td .trace.trace-arrivee-h{
+	top:50%;
+}
+
+.plateau td .trace.trace-arrivee-b{
+	top:0;
+}
+
+.plateau td .trace.trace-blue.trace-d, .plateau td .trace.trace-blue.trace-g, .plateau td .trace.trace-blue.trace-arrivee-g, .plateau td .trace.trace-blue.trace-arrivee-d {
+	border-top: 2px dashed #bccfdb;
+}
+
+.plateau td .trace.trace-blue.trace-h, .plateau td .trace.trace-blue.trace-b, .plateau td .trace.trace-blue.trace-arrivee-h, .plateau td .trace.trace-blue.trace-arrivee-b  {
+	border-left: 2px dashed #bccfdb;
+}
+
+.plateau td .trace.trace-yellow.trace-d, .plateau td .trace.trace-yellow.trace-g, .plateau td .trace.trace-yellow.trace-arrivee-g, .plateau td .trace.trace-yellow.trace-arrivee-d  {
+	border-top: 2px dashed #f1eacf;
+}
+
+.plateau td .trace.trace-yellow.trace-h, .plateau td .trace.trace-yellow.trace-b, .plateau td .trace.trace-yellow.trace-arrivee-h, .plateau td .trace.trace-yellow.trace-arrivee-b  {
+	border-left: 2px dashed #f1eacf;
+}
+
+.plateau td .trace.trace-red.trace-d, .plateau td .trace.trace-red.trace-g, .plateau td .trace.trace-red.trace-arrivee-g, .plateau td .trace.trace-red.trace-arrivee-d  {
+	border-top: 2px dashed #e7cac7;
+}
+
+.plateau td .trace.trace-red.trace-h, .plateau td .trace.trace-red.trace-b, .plateau td .trace.trace-red.trace-arrivee-h, .plateau td .trace.trace-red.trace-arrivee-b  {
+	border-left: 2px dashed #e7cac7;
+}
+
+.plateau td .trace.trace-green.trace-d, .plateau td .trace.trace-green.trace-g, .plateau td .trace.trace-green.trace-arrivee-g, .plateau td .trace.trace-green.trace-arrivee-d  {
+	border-top: 2px dashed #6bcc96;
+}
+
+.plateau td .trace.trace-green.trace-h, .plateau td .trace.trace-green.trace-b, .plateau td .trace.trace-green.trace-arrivee-h, .plateau td .trace.trace-green.trace-arrivee-b  {
+	border-left: 2px dashed #6bcc96;
 }
 
 
