@@ -1,5 +1,17 @@
 var util = {
 
+	// renvoie si le touch est disponible
+	isTouchDevice: function() {
+		return 'ontouchstart' in document.documentElement;
+	},
+	
+	// ajoute la class 'touch' sur le body si le touch est disponible
+	detectTouch: function() {
+		if (this.isTouchDevice()) {
+			this.addClass(document.body, 'touch');
+		}
+	},
+
 	// renvoie les classes d'un element
 	getClasses: function(element) {
 		return element.className.split(' ');

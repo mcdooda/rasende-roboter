@@ -75,6 +75,8 @@ function init() {
 			return false;
 		}
 	});
+	
+	util.detectTouch();
 }
 
 function getImgPart(name, span){

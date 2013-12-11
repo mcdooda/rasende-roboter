@@ -11,6 +11,7 @@ footer {
 }
 
 /* fisheyes */
+<<<<<<< HEAD
 #lesParties {
 	position: relative;
 	
@@ -21,9 +22,22 @@ footer {
 }
 
 #lesParties a:hover div {
+=======
+#lesParties a div{
+	display: none;
+}
+
+#lesParties a:hover div{
+>>>>>>> b45affcda811a084c43e254772d8cc652bffc706
 	display: block;
 }
 
 #lesParties a:hover {
 	font-size: 150%;
+<<<<<<< HEAD
 }
+=======
+}
+
+
+>>>>>>> b45affcda811a084c43e254772d8cc652bffc706
