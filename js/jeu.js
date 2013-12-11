@@ -110,87 +110,89 @@ function selectionnerRobot(robotElement) {
 }
 //tracer la route du robot
 function trace(robot, caseArrivee){
-	var couleur = getCouleur(robot);
-	var caseCourante = robot.parentNode;
-	var coordonnees = getCoordonneesCase(caseCourante);
-	var direction = getDirection(caseArrivee);
-	switch(direction){
-		case 'd':
-			var trace = document.createElement('span');
-			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
-			util.addClass(trace,'trace');
-			util.addClass(trace,'trace-'+couleur);
-			util.addClass(trace,'trace-arrivee-g');
-			for(var i = getCoordonneesCase(caseCourante).colonne+1; i < getCoordonneesCase(caseArrivee).colonne;i++){
+	if(util.isChrome()){
+		var couleur = getCouleur(robot);
+		var caseCourante = robot.parentNode;
+		var coordonnees = getCoordonneesCase(caseCourante);
+		var direction = getDirection(caseArrivee);
+		switch(direction){
+			case 'd':
 				var trace = document.createElement('span');
-				getCase(getCoordonneesCase(caseCourante).ligne,i).appendChild(trace);
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
 				util.addClass(trace,'trace');
 				util.addClass(trace,'trace-'+couleur);
-				util.addClass(trace,'trace-d');
-			}
-			var trace = document.createElement('span');
-			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseArrivee).colonne).appendChild(trace);
-			util.addClass(trace,'trace');
-			util.addClass(trace,'trace-'+couleur);
-			util.addClass(trace,'trace-arrivee-d');
-		break;
-		case 'g':
-			var trace = document.createElement('span');
-			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseArrivee).colonne).appendChild(trace);
-			util.addClass(trace,'trace');
-			util.addClass(trace,'trace-'+couleur);
-			util.addClass(trace,'trace-arrivee-g');
-			for(var i = getCoordonneesCase(caseArrivee).colonne+1; i < getCoordonneesCase(caseCourante).colonne;i++){
+				util.addClass(trace,'trace-arrivee-g');
+				for(var i = getCoordonneesCase(caseCourante).colonne+1; i < getCoordonneesCase(caseArrivee).colonne;i++){
+					var trace = document.createElement('span');
+					getCase(getCoordonneesCase(caseCourante).ligne,i).appendChild(trace);
+					util.addClass(trace,'trace');
+					util.addClass(trace,'trace-'+couleur);
+					util.addClass(trace,'trace-d');
+				}
 				var trace = document.createElement('span');
-				getCase(getCoordonneesCase(caseCourante).ligne,i).appendChild(trace);
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseArrivee).colonne).appendChild(trace);
 				util.addClass(trace,'trace');
 				util.addClass(trace,'trace-'+couleur);
-				util.addClass(trace,'trace-g');
-			}
-			var trace = document.createElement('span');
-			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
-			util.addClass(trace,'trace');
-			util.addClass(trace,'trace-'+couleur);
-			util.addClass(trace,'trace-arrivee-d');
-		break;
-		case 'b':
-			var trace = document.createElement('span');
-			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
-			util.addClass(trace,'trace');
-			util.addClass(trace,'trace-'+couleur);
-			util.addClass(trace,'trace-arrivee-h');
-			for(var i = getCoordonneesCase(caseCourante).ligne+1; i < getCoordonneesCase(caseArrivee).ligne;i++){
+				util.addClass(trace,'trace-arrivee-d');
+			break;
+			case 'g':
 				var trace = document.createElement('span');
-				getCase(i,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseArrivee).colonne).appendChild(trace);
 				util.addClass(trace,'trace');
 				util.addClass(trace,'trace-'+couleur);
-				util.addClass(trace,'trace-b');
-			}
-			var trace = document.createElement('span');
-			getCase(getCoordonneesCase(caseArrivee).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
-			util.addClass(trace,'trace');
-			util.addClass(trace,'trace-'+couleur);
-			util.addClass(trace,'trace-arrivee-b');
-		break;
-		case 'h':
-			var trace = document.createElement('span');
-			getCase(getCoordonneesCase(caseArrivee).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
-			util.addClass(trace,'trace');
-			util.addClass(trace,'trace-'+couleur);
-			util.addClass(trace,'trace-arrivee-h');
-			for(var i = getCoordonneesCase(caseArrivee).ligne+1; i < getCoordonneesCase(caseCourante).ligne;i++){
+				util.addClass(trace,'trace-arrivee-g');
+				for(var i = getCoordonneesCase(caseArrivee).colonne+1; i < getCoordonneesCase(caseCourante).colonne;i++){
+					var trace = document.createElement('span');
+					getCase(getCoordonneesCase(caseCourante).ligne,i).appendChild(trace);
+					util.addClass(trace,'trace');
+					util.addClass(trace,'trace-'+couleur);
+					util.addClass(trace,'trace-g');
+				}
 				var trace = document.createElement('span');
-				getCase(i,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
 				util.addClass(trace,'trace');
 				util.addClass(trace,'trace-'+couleur);
-				util.addClass(trace,'trace-h');
-			}
-			var trace = document.createElement('span');
-			getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
-			util.addClass(trace,'trace');
-			util.addClass(trace,'trace-'+couleur);
-			util.addClass(trace,'trace-arrivee-b');
-		break;
+				util.addClass(trace,'trace-arrivee-d');
+			break;
+			case 'b':
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-h');
+				for(var i = getCoordonneesCase(caseCourante).ligne+1; i < getCoordonneesCase(caseArrivee).ligne;i++){
+					var trace = document.createElement('span');
+					getCase(i,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+					util.addClass(trace,'trace');
+					util.addClass(trace,'trace-'+couleur);
+					util.addClass(trace,'trace-b');
+				}
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseArrivee).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-b');
+			break;
+			case 'h':
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseArrivee).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-h');
+				for(var i = getCoordonneesCase(caseArrivee).ligne+1; i < getCoordonneesCase(caseCourante).ligne;i++){
+					var trace = document.createElement('span');
+					getCase(i,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+					util.addClass(trace,'trace');
+					util.addClass(trace,'trace-'+couleur);
+					util.addClass(trace,'trace-h');
+				}
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-b');
+			break;
+		}
 	}
 }
 

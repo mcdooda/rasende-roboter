@@ -119,6 +119,11 @@ var util = {
 	moveTo: function(element, newParent) {
 		this.detach(element);
 		newParent.appendChild(element);
+	},
+	
+	// retourne si le navigateur est chrome pour la trace
+	isChrome: function() {
+		return navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 	}
 
 };
