@@ -12,13 +12,15 @@ footer {
 
 /* fisheyes */
 #lesParties a div{
-	display:none;
+	display: none;
 }
 
 #lesParties a:hover div{
-	display:block;
+	display: block;
 }
 
 #lesParties a:hover {
-	font-size:150%;
+	font-size: 150%;
 }
+
+
