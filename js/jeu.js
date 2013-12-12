@@ -60,37 +60,59 @@ function afficherPlateau(plateau, conteneur, id) {
 	table.appendChild(tbody);
 	
 	conteneur.appendChild(table);
-	var partie = document.getElementById('partie');
-	if(partie){
-		var redimensionner = function() {
-			var partie = document.getElementById('partie');
-			var largeurPlateau;
-			var ratio = 0.96;
-			if (partie.offsetWidth < partie.offsetHeight) {
-				largeurPlateau = partie.offsetWidth * ratio;
-				table.style.width = largeurPlateau + 'px';
-				table.style.height = largeurPlateau + 'px';
-			} else {
-				largeurPlateau = partie.offsetHeight * ratio;
-				table.style.width = largeurPlateau + 'px';
-				table.style.height = largeurPlateau + 'px';
-			}
-			var largeurCase = largeurPlateau / 16;
-			var L = table.querySelectorAll('tr, td');
-			for (var i = 0; i < L.length; i++) {
-				L[i].style.height = largeurCase + 'px';
-			}
-			var largeurRobot = (largeurCase - 1) * 0.8;
-			var M = table.querySelectorAll('.robot');
-			for (var i = 0; i < M.length; i++) {
-				M[i].style.height = largeurRobot + 'px';
-				M[i].style.width  = largeurRobot + 'px';
-			}
-		};
-		
+}
 
-		redimensionner();
-		addEventListener('resize', redimensionner);
+function ajouterRedimensionnement() {
+	addEventListener('resize', redimensionner);
+}
+
+// fonction appelee lors du redimensionnement
+function redimensionner() {
+	var partie = document.getElementById('partie');
+	if (partie) {
+		var plateau = document.getElementById('plateau');
+		var largeurPlateau;
+		var ratio = 0.96;
+		if (partie.offsetWidth < partie.offsetHeight) {
+			largeurPlateau = partie.offsetWidth * ratio;
+			plateau.style.width = largeurPlateau + 'px';
+			plateau.style.height = largeurPlateau + 'px';
+		} else {
+			largeurPlateau = partie.offsetHeight * ratio;
+			plateau.style.width = largeurPlateau + 'px';
+			plateau.style.height = largeurPlateau + 'px';
+		}
+		var largeurCase = largeurPlateau / 16;
+	
+		var L = plateau.querySelectorAll('tr, td');
+		for (var i = 0; i < L.length; i++) {
+			L[i].style.height = largeurCase + 'px';
+		}
+		var largeurRobot = (largeurCase - 1) * 0.8;
+		var M = plateau.querySelectorAll('.robot');
+		for (var i = 0; i < M.length; i++) {
+			M[i].style.height = largeurRobot + 'px';
+			M[i].style.width  = largeurRobot + 'px';
+		}
+	
+		var N = document.querySelectorAll('#fleches, #boutons');
+		for (var i = 0; i < N.length; i++) {
+			var largeurConteneur = N[i].offsetWidth;
+			var hauteurConteneur = N[i].offsetHeight;
+			var table = N[i].querySelector('table');
+			var hauteurBouton;
+			if (largeurConteneur < hauteurConteneur) {
+				hauteurBouton = largeurConteneur / 3.3;
+			} else {
+				hauteurBouton = hauteurConteneur / 3.3;
+			}
+		
+			var P = table.querySelectorAll('img, .bouton');
+			for (var j = 0; j < P.length; j++) {
+				P[j].style.width = hauteurBouton + 'px';
+				P[j].style.height = hauteurBouton + 'px';
+			}
+		}
 	}
 }
 
@@ -110,39 +132,89 @@ function selectionnerRobot(robotElement) {
 }
 //tracer la route du robot
 function trace(robot, caseArrivee){
-	var couleur = getCouleur(robot);
-	var caseCourante = robot.parentNode;
-	var coordonnees = getCoordonneesCase(caseCourante);
-	var direction = getDirection(caseArrivee);
-	switch(direction){
-		case 'd':
-			for(var i = getCoordonneesCase(caseCourante).colonne; i <= getCoordonneesCase(caseArrivee).colonne;i++){
-				supprimerTrace(getCase(getCoordonneesCase(caseCourante).ligne,i));
-				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace');
-				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace-'+couleur);
-			}
-		break;
-		case 'g':
-			for(var i = getCoordonneesCase(caseArrivee).colonne; i <= getCoordonneesCase(caseCourante).colonne;i++){
-				supprimerTrace(getCase(getCoordonneesCase(caseCourante).ligne,i));
-				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace');
-				util.addClass(getCase(getCoordonneesCase(caseCourante).ligne,i),'trace-'+couleur);
-			}
-		break;
-		case 'b':
-			for(var i = getCoordonneesCase(caseCourante).ligne; i <= getCoordonneesCase(caseArrivee).ligne;i++){
-				supprimerTrace(getCase(i,getCoordonneesCase(caseCourante).colonne));			
-				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace');
-				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace-'+couleur);
-			}
-		break;
-		case 'h':
-			for(var i = getCoordonneesCase(caseArrivee).ligne; i <= getCoordonneesCase(caseCourante).ligne;i++){
-				supprimerTrace(getCase(i,getCoordonneesCase(caseCourante).colonne));
-				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace');
-				util.addClass(getCase(i,getCoordonneesCase(caseCourante).colonne),'trace-'+couleur);
-			}
-		break;
+	if(util.isChrome()){
+		var couleur = getCouleur(robot);
+		var caseCourante = robot.parentNode;
+		var coordonnees = getCoordonneesCase(caseCourante);
+		var direction = getDirection(caseArrivee);
+		switch(direction){
+			case 'd':
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-g');
+				for(var i = getCoordonneesCase(caseCourante).colonne+1; i < getCoordonneesCase(caseArrivee).colonne;i++){
+					var trace = document.createElement('span');
+					getCase(getCoordonneesCase(caseCourante).ligne,i).appendChild(trace);
+					util.addClass(trace,'trace');
+					util.addClass(trace,'trace-'+couleur);
+					util.addClass(trace,'trace-d');
+				}
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseArrivee).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-d');
+			break;
+			case 'g':
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseArrivee).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-g');
+				for(var i = getCoordonneesCase(caseArrivee).colonne+1; i < getCoordonneesCase(caseCourante).colonne;i++){
+					var trace = document.createElement('span');
+					getCase(getCoordonneesCase(caseCourante).ligne,i).appendChild(trace);
+					util.addClass(trace,'trace');
+					util.addClass(trace,'trace-'+couleur);
+					util.addClass(trace,'trace-g');
+				}
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-d');
+			break;
+			case 'b':
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-h');
+				for(var i = getCoordonneesCase(caseCourante).ligne+1; i < getCoordonneesCase(caseArrivee).ligne;i++){
+					var trace = document.createElement('span');
+					getCase(i,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+					util.addClass(trace,'trace');
+					util.addClass(trace,'trace-'+couleur);
+					util.addClass(trace,'trace-b');
+				}
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseArrivee).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-b');
+			break;
+			case 'h':
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseArrivee).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-h');
+				for(var i = getCoordonneesCase(caseArrivee).ligne+1; i < getCoordonneesCase(caseCourante).ligne;i++){
+					var trace = document.createElement('span');
+					getCase(i,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+					util.addClass(trace,'trace');
+					util.addClass(trace,'trace-'+couleur);
+					util.addClass(trace,'trace-h');
+				}
+				var trace = document.createElement('span');
+				getCase(getCoordonneesCase(caseCourante).ligne,getCoordonneesCase(caseCourante).colonne).appendChild(trace);
+				util.addClass(trace,'trace');
+				util.addClass(trace,'trace-'+couleur);
+				util.addClass(trace,'trace-arrivee-b');
+			break;
+		}
 	}
 }
 
@@ -152,6 +224,7 @@ function deplacerRobot(robotElement, caseElement) {
 	var dernierDeplace = getDernierRobotDeplace();
 	if (dernierDeplace != null) {
 		util.removeClass(dernierDeplace, 'dernier-deplace');
+		util.removeClass(getToucheTactile(dernierDeplace), 'dernier-deplace');
 	}
 	
 	if (dernierDeplace != robotElement) {
@@ -169,20 +242,30 @@ function deplacerRobot(robotElement, caseElement) {
 	});
 	trace(robotElement, caseElement);
 	util.moveTo(robotElement, caseElement);
+	
 	util.addClass(robotElement, 'deplace');
 	util.addClass(robotElement, 'dernier-deplace');
+	util.addClass(getToucheTactile(robotElement), 'deplace');
+	util.addClass(getToucheTactile(robotElement), 'dernier-deplace');
+	
 	supprimerClicRobotsDeplaces();
 	supprimerClicDestinations();
 	masquerCasesAccessibles();
 	
 	if (util.hasClass(caseElement, 'cible') && getCouleur(caseElement) == couleurRobot) {
-		supprimerClicRobots();
-		supprimerTouches();
+		arreterPartie();
 		envoyerProposition();
+		util.vibrate(1500);
 	} else {
 		afficherCasesAccessibles(robotElement);
 		ajouterClicDestinations();
 	}
+}
+
+function arreterPartie() {
+	supprimerClicRobots();
+	supprimerTouches();
+	document.getElementById('bouton-recommencer').style.display = 'none';
 }
 
 function envoyerProposition() {
@@ -194,9 +277,7 @@ function envoyerProposition() {
 		},
 		
 		onload: function(event) {
-			console.log(this.responseText);
 			var data = JSON.parse(this.responseText);
-			console.log(data);
 			
 			var messageElem = document.getElementById('message');
 			switch(data.state) {
@@ -279,12 +360,14 @@ function masquerSelection() {
 	var selection = getRobotSelectionne();
 	if (selection != null) {
 		util.removeClass(selection, 'selection');
+		util.removeClass(getToucheTactile(selection), 'selection');
 	}
 }
 
 // affiche l'effet de selection sur un robot
 function afficherSelection(robotElement) {
 	util.addClass(robotElement, 'selection');
+	util.addClass(getToucheTactile(robotElement), 'selection');
 }
 
 // fonction appelee lors du drag d'un robot
@@ -418,15 +501,9 @@ function masquerCasesAccessibles() {
 function supprimerTraces() {
 	var L = document.querySelectorAll('#plateau .trace');
 	for (var i = 0; i < L.length; i++) {
-		[
-			'trace',
-			'trace-blue',
-			'trace-red',
-			'trace-green',
-			'trace-yellow'
-		].forEach(function(class_) {
-			util.removeClass(L[i], class_);
-		});
+			var elem = L[i];
+			var parent = elem.parentNode;
+			parent.removeChild(elem);
 	}
 }
 
@@ -583,6 +660,14 @@ function selectionnerRobotSuivant() {
 	}
 }
 
+// selection du robot de la couleur donnee
+function selectionnerRobotCouleur(couleur) {
+	var robotElement = document.querySelector('#plateau .robot.' + couleur + ':not(.deplace), #plateau .robot.' + couleur + '.dernier-deplace');
+	if (robotElement != null) {
+		selectionnerRobot(robotElement);
+	}
+}
+
 // deplacer un robot dans une direction donnee (touches directionnelles)
 function deplacerRobotDirection(direction) {
 	var selection = getRobotSelectionne();
@@ -595,7 +680,7 @@ function deplacerRobotDirection(direction) {
 // fonction appelee lors de l'appui sur une touche du clavier
 function appuiTouche(e) {
 	switch (e.keyCode || e.charCode) {
-		case 27: // echap
+		case 82: // R
 		recommencer();
 		e.preventDefault();
 		break;
@@ -627,14 +712,79 @@ function appuiTouche(e) {
 	}
 }
 
+function getToucheTactile(robotElement) {
+	return document.querySelector('.bouton.' + getCouleur(robotElement));
+}
+
+// ajoute les evenements sur les touches pour ecran tactile
+function ajouterTouchesTactiles() {
+	document.querySelector('.fleche.h').addEventListener('touchstart', clicToucheTactileH);
+	document.querySelector('.fleche.g').addEventListener('touchstart', clicToucheTactileG);
+	document.querySelector('.fleche.d').addEventListener('touchstart', clicToucheTactileD);
+	document.querySelector('.fleche.b').addEventListener('touchstart', clicToucheTactileB);
+	
+	document.querySelector('.bouton.blue'  ).addEventListener('touchstart', clicToucheTactileBlue);
+	document.querySelector('.bouton.green' ).addEventListener('touchstart', clicToucheTactileGreen);
+	document.querySelector('.bouton.red'   ).addEventListener('touchstart', clicToucheTactileRed);
+	document.querySelector('.bouton.yellow').addEventListener('touchstart', clicToucheTactileYellow);
+}
+
+// supprime les evenements sur les touches pour ecran tactile
+function supprimerTouchesTactiles() {
+	document.querySelector('.fleche.h').removeEventListener('touchstart', clicToucheTactileH);
+	document.querySelector('.fleche.g').removeEventListener('touchstart', clicToucheTactileG);
+	document.querySelector('.fleche.d').removeEventListener('touchstart', clicToucheTactileD);
+	document.querySelector('.fleche.b').removeEventListener('touchstart', clicToucheTactileB);
+	
+	document.querySelector('.bouton.blue'  ).removeEventListener('touchstart', clicToucheTactileBlue);
+	document.querySelector('.bouton.green' ).removeEventListener('touchstart', clicToucheTactileGreen);
+	document.querySelector('.bouton.red'   ).removeEventListener('touchstart', clicToucheTactileRed);
+	document.querySelector('.bouton.yellow').removeEventListener('touchstart', clicToucheTactileYellow);
+}
+
+function clicToucheTactileH() {
+	deplacerRobotDirection('h');
+}
+
+function clicToucheTactileG() {
+	console.log('G');
+	deplacerRobotDirection('g');
+}
+
+function clicToucheTactileD() {
+	deplacerRobotDirection('d');
+}
+
+function clicToucheTactileB() {
+	deplacerRobotDirection('b');
+}
+
+function clicToucheTactileBlue() {
+	selectionnerRobotCouleur('blue');
+}
+
+function clicToucheTactileGreen() {
+	selectionnerRobotCouleur('green');
+}
+
+function clicToucheTactileRed() {
+	selectionnerRobotCouleur('red');
+}
+
+function clicToucheTactileYellow() {
+	selectionnerRobotCouleur('yellow');
+}
+
 // ajoute l'evenement touche appuyee
 function ajouterTouches() {
 	document.addEventListener('keydown', appuiTouche);
+	ajouterTouchesTactiles();
 }
 
 // supprime l'evenement touche appuyee
 function supprimerTouches() {
 	document.removeEventListener('keydown', appuiTouche);
+	supprimerTouchesTactiles();
 }
 
 // ajoute les evenements swipe sur le plateau
@@ -665,7 +815,7 @@ function supprimerSwipe() {
 
 // reinitialise les positions initiales des robots
 function reinitialiserRobots() {
-	var L = document.querySelectorAll('#plateau .robot');
+	var L = document.querySelectorAll('#plateau .robot, #boutons .bouton');
 	for (var i = 0; i < L.length; i++) {
 		[
 			'deplace',
@@ -674,7 +824,9 @@ function reinitialiserRobots() {
 		].forEach(function(class_) {
 			util.removeClass(L[i], class_);
 		});
-		util.moveTo(L[i], getCase(L[i].getAttribute('data-ligne-origine'), L[i].getAttribute('data-colonne-origine')));
+		if (util.hasClass(L[i], 'robot')) {
+			util.moveTo(L[i], getCase(L[i].getAttribute('data-ligne-origine'), L[i].getAttribute('data-colonne-origine')));
+		}
 	}
 }
 
@@ -720,16 +872,45 @@ function afficherGagnant() {
 
 // affiche/affiche le panneau lateral en touch
 function afficherMasquerInfosTouch() {
-	var infos = document.getElementById('infos');
-	if (infos.style.display == 'block') {
-		infos.style.display = 'none';
-	} else {
-		infos.style.display = 'block';
+	if (util.hasClass(document.body, 'touch')) {
+		var infos = document.getElementById('infos');
+		if (infos.style.display == 'block') {
+			masquerInfosTouch();
+		} else {
+			afficherInfosTouch();
+		}
 	}
 }
 
 // masque le panneau touch
 function masquerInfosTouch() {
-	var infos = document.getElementById('infos');
-	infos.style.display = 'none';
+	if (util.hasClass(document.body, 'touch')) {
+		var infos = document.getElementById('infos');
+		infos.style.display = 'none';
+	}
 }
+
+// affiche le panneau touch
+function afficherInfosTouch() {
+	if (util.hasClass(document.body, 'touch')) {
+		var infos = document.getElementById('infos');
+		infos.style.display = 'block';
+		
+		var etapes = 10;
+		var duree = 150;
+		
+		var left = -80;
+		infos.style.left = left + '%';
+		var deplacer = function() {
+			left += 80 / etapes;
+			if (left >= 0) {
+				left = 0;
+				clearInterval(iv);
+			}
+			infos.style.left = left + '%';
+		};
+		var iv = setInterval(deplacer, duree / etapes);
+	}
+}
+
+

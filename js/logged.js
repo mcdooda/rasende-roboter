@@ -41,7 +41,6 @@ function init() {
 	socket.on('FinalCountDown'	, function(data) {
 		document.getElementById('count').style.display = 'block';
 		var ms   = data.FinalCountDown;
-		console.log("FinalCountDown : " + ms);
 		
 		var iv = setInterval(function() {
 			ms -= 1000;
@@ -56,11 +55,11 @@ function init() {
 		});
 	socket.on('TerminateGame'	, function(data) {
 		h1 = document.querySelector('#infos > header > h1');
-		h1.innerHTML += ' est terminée !';
+		h1.innerHTML += ' est terminée';
 		afficherGagnant();
+		arreterPartie();
 		});
 	socket.on('solutions'		, function(data) {
-		console.log("Solutions are :\n"+JSON.stringify(data.solutions));
 		data.solutions.forEach(afficherScore);
 		});
 	socket.emit ('identification', 	{ login	: getLogin()
@@ -71,15 +70,15 @@ function init() {
 	
 		onload: function() {
 			var data = JSON.parse(this.responseText);
-			console.log('data', data);
 			
+			util.detectTouch();
 			afficherPlateau(data, document.getElementById('partie'), 'plateau');
 			ajouterClicRobots();
 			ajouterTouches();
+			ajouterRedimensionnement();
+			redimensionner();
 		}
 		
 	});
-	
-	util.detectTouch();
 }
 

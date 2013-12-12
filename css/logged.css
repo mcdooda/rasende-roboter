@@ -1,15 +1,3 @@
-html {
-	height: 100%;
-	width: 100%;
-}
-
-body {
-	height: 100%;
-	width: 100%;
-	padding: 0;
-	margin: 0;
-}
-
 body > section {
 	padding: 0;
 	margin: 0;
@@ -19,16 +7,92 @@ footer {
 	font-style: italic;
 }
 
-#partie {
+#partie, #infos, #commandes-jeu-touch {
 	width: 50%;
 	height: 100%;
 	float: left;
 }
 
-#infos {
-	width: 50%;
+#fleches, #boutons {
+	height: 50%;
+	width: 100%;
+}
+
+#commandes-jeu-touch {
+	text-align: center;
+}
+
+#commandes-jeu-touch table {
+	margin: auto;
+	border-collapse: collapse;
+}
+#commandes-jeu-touch tbody {
+	width: 100%;
 	height: 100%;
-	float: left;
+}
+#commandes-jeu-touch img {
+	display: block;
+}
+
+#boutons .bouton {
+	border-radius: 100%;
+	display: block;
+}
+#boutons .bouton.blue {
+	background-color: #3498db;
+}
+#boutons .bouton.red {
+	background-color: #e74c3c;
+}
+#boutons .bouton.green {
+	background-color: #2ecc71;
+}
+#boutons .bouton.yellow {
+	background-color: #f1c40f;
+}
+
+#boutons .bouton.selection {
+	border: 1px solid black;
+	margin: -1px;
+}
+
+#boutons .bouton.deplace:not(.dernier-deplace) {
+	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.7) inset;
+}
+#boutons .bouton.deplace.blue {
+	background-color: #2980b9;
+}
+#boutons .bouton.deplace.red {
+	background-color: #c0392b;
+}
+#boutons .bouton.deplace.green {
+	background-color: #27ae60;
+}
+#boutons .bouton.deplace.yellow {
+	background-color: #f39c12;
+}
+
+#commandes-touch {
+	text-align: right;
+}
+
+#bouton-touch {
+	display: inline-block;
+	width: 30px;
+	border: 1px solid gray;
+	border-radius: 3px;
+	margin: 3px;
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	background: white;
+}
+#bouton-touch span {
+	display: block;
+	margin: 4px;
+	border-radius: 3px;
+	height: 2px;
+	background: black;
 }
 
 @media(orientation: portrait) {
@@ -42,6 +106,23 @@ footer {
 		width: 100%;
 		height: auto;
 		float: none;
+	}
+	
+	#commandes-jeu-touch {
+		width: 100%;
+		height: 30%;
+		float: none;
+	}
+	
+	#fleches, #boutons {
+		float: left;
+		height: 100%;
+		width: 50%;
+		margin-top: 10px;
+	}
+	
+	#bouton-touch {
+		position: static;
 	}
 }
 
@@ -70,41 +151,44 @@ footer {
 	color: green;
 }
 
-.touch .astuce-clavier {
+.touch-desactive {
+	display: block;
+}
+.touch .touch-desactive {
 	display: none;
 }
 
-#commandes-touch {
+.touch-active {
 	display: none;
-	text-align: right;
 }
-.touch #commandes-touch {
+.touch .touch-active {
 	display: block;
 }
 
-#bouton-touch {
-	display: inline-block;
-	width: 30px;
-	border: 1px solid gray;
-	border-radius: 3px;
-	margin: 3px;
+#infos {
+	position: relative;
 }
-#bouton-touch span {
-	display: block;
-	margin: 4px;
-	border-radius: 3px;
-	height: 2px;
-	background: black;
+
+#bouton-recommencer {
+	text-align: center;
+	margin-top: 28px;
+}
+
+#infos footer {
+	position: absolute;
+	bottom: 30px;
+	left: 30px;
+	right: 30px;
 }
 
 .touch #infos {
-	display: none;
 	position: fixed;
+	z-index: 10;
 	width: 80%;
 	height: 100%;
 	border-right: 1px solid black;
 	top: 0;
 	left: 0;
-	background: #eee;
+	background-color: #ecf0f1;
 }
 

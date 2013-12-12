@@ -3,8 +3,8 @@ var XHR = function(method, ad, params) {
 	xhr.onload = params.onload || null;
 	xhr.open(method, ad);
 	if(method == 'POST') {xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');}
-	var variables   = params.variables || null
-	  , str			= '';
+	var variables = params.variables || null
+	, str			= '';
 	for(var i in variables) {
 		 str += i + '=' + encodeURIComponent( variables[i] ) + '&';
 		}
@@ -19,34 +19,44 @@ function init() {
 	socket.on('gamesList', function(data) {
 
 		var ul = document.getElementById('lesParties');
+		var thumbDiv = document.getElementById('thumb');
 		ul.innerHTML='';
-		if(data.gamesList.length > 0)
-	        {
+		thumbDiv.innerHTML='';
+		if(data.gamesList.length > 0) {
 			for(p in data.gamesList) {
-			      var li = document.createElement('li'); 
-			      ul.appendChild( li );
-			      var a = document.createElement('a');
-			      a.setAttribute('href', '#');
-			      a.addEventListener('click', function() {
-				      document.getElementById('idGame').value = data.gamesList[p];
-				      document.getElementById('nouvellePartie').submit();
-				      return false;
-			      });
-			      a.appendChild( document.createTextNode( data.gamesList[p] ) );
-			      var div = document.createElement('div');
-			      //span.setAttribute
-			      getImgPart(data.gamesList[p], div);
-			      a.appendChild(div);
-			      li.appendChild(a);
+				var gameName = data.gamesList[p];
+				var li = document.createElement('li'); 
+				ul.appendChild( li );
+				var a = document.createElement('a');
+				a.setAttribute('href', '#');
+				a.addEventListener('click', function() {
+					document.getElementById('idGame').value = gameName;
+					document.getElementById('nouvellePartie').submit();
+					return false;
+				});
+				a.appendChild( document.createTextNode(gameName) );
+				var div = document.createElement('div');
+				//span.setAttribute
+				getImgPart(gameName, div);
+				thumbDiv.appendChild(div);
+				li.appendChild(a);
+				(function(div) {
+					a.addEventListener('mouseover', function() {
+						showThumb(div, true);
+					});
+					a.addEventListener('mouseout', function() {
+						showThumb(div, false);
+					});
+				})(div);
 
-		      }
-	      } else {
-		      var li = document.createElement('li'); 
-		      ul.appendChild(li);
-		      li.appendChild(document.createTextNode('Aucune partie disponible'));
-		      li.className = 'empty';
-	      }
-      }
+				}
+		} else {
+			var li = document.createElement('li'); 
+			ul.appendChild(li);
+			li.appendChild(document.createTextNode('Aucune partie disponible'));
+			li.className = 'empty';
+		}
+	}
 			);
 	socket.emit('loginPage');
 	
@@ -69,17 +79,19 @@ function init() {
 }
 
 function getImgPart(name, span){
-  XHR('GET', '/' + name, {
+XHR('GET', '/' + name, {
 	
 		onload: function() {
 			var data = JSON.parse(this.responseText);
 			//console.log('data', data);
-			afficherPlateau(data, span);
+			afficherPlateau(data, span, 'game-' + name);
 		}
 		
 	});
-  
-  
+
+
 }
 
-
+function showThumb(elem, value) {
+	elem.style.display = (value ? 'block' : 'none');
+}

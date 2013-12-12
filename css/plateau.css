@@ -1,96 +1,165 @@
 /* plateau */
 .plateau {
-        border: 1px solid black;
-        border-collapse: collapse;
-        margin: auto;
-        width: 100%;
+	border: 1px solid black;
+	border-collapse: collapse;
+	margin: auto;
+	width: 100%;
+	background-color: white;
 }
 
 /* case */
 .plateau td {
-        width: 6.25%;
-        height: 100%;
-        text-align: center;
-        vertical-align: middle;
-        padding: 0;
+	width: 6.25%;
+	height: 100%;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0;
 }
 
 /* murs */
 .plateau td {
-        border: 1px dotted #bdc3c7;
+	position: relative;
+	border: 1px dotted #bdc3c7;
 }
 .plateau td.g {
-        border-left: 1px solid black;
+	border-left: 1px solid black;
 }
 .plateau td.h {
-        border-top: 1px solid black;
+	border-top: 1px solid black;
 }
 .plateau td.b {
-        border-bottom: 1px solid black;
+	border-bottom: 1px solid black;
 }
 .plateau td.d {
-        border-right: 1px solid black;
+	border-right: 1px solid black;
 }
 
 /* robot */
 .plateau .robot {
-        display: block;
-        margin: auto;
-        border-radius: 100%;
+	position: relative;
+	display: block;
+	margin: auto;
+	border-radius: 100%;
+	z-index: 7;
 }
 .plateau .robot.blue {
-        background-color: #3498db;
+	background-color: #3498db;
 }
 .plateau .robot.red {
-        background-color: #e74c3c;
+	background-color: #e74c3c;
 }
 .plateau .robot.green {
-        background-color: #2ecc71;
+	background-color: #2ecc71;
 }
 .plateau .robot.yellow {
-        background-color: #f1c40f;
+	background-color: #f1c40f;
 }
 
 /* robot selectionné */
 .plateau .robot.selection {
-        border: 1px solid black;
+	border: 1px solid black;
 }
 
 .plateau .robot.deplace:not(.dernier-deplace) {
-        box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.7) inset;
+	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.7) inset;
 }
 .plateau .robot.deplace.blue {
-        background-color: #2980b9;
+	background-color: #2980b9;
 }
 .plateau .robot.deplace.red {
-        background-color: #c0392b;
+	background-color: #c0392b;
 }
 .plateau .robot.deplace.green {
-        background-color: #27ae60;
+	background-color: #27ae60;
 }
 .plateau .robot.deplace.yellow {
-        background-color: #f39c12;
+	background-color: #f39c12;
 }
 
 /* case accessible */
 .plateau td.accessible {
-        background-color: #ecf0f1;
+	background-color: #ecf0f1;
 }
 
-.plateau td.trace-blue {
-        background-color: #bccfdb;
+.plateau td .trace{
+	position: absolute;
+	z-index: 6;
+	display: block;
+	margin: 0;
 }
 
-.plateau td.trace-yellow {
-        background-color: #f1eacf;
+.plateau td .trace.trace-d, .plateau td .trace.trace-g{
+	width: 100%;
+	height: 0;
+	top: 49%;
+	left:0;
 }
 
-.plateau td.trace-red {
-        background-color: #e7cac7;
+.plateau td .trace.trace-arrivee-d, .plateau td .trace.trace-arrivee-g{
+	width: 50%;
+	height: 0;
+	top: 49%;
 }
 
-.plateau td.trace-green {
-        background-color: #afccbc;
+.plateau td .trace.trace-arrivee-d{
+	left:0;
+}
+
+.plateau td .trace.trace-arrivee-g{
+	left:50%;
+}
+
+.plateau td .trace.trace-h, .plateau td .trace.trace-b{
+	width: 0;
+	height: 100%;
+	left: 49%;
+	top:0;
+}
+
+.plateau td .trace.trace-arrivee-h, .plateau td .trace.trace-arrivee-b{
+	width: 0;
+	height: 50%;
+	left: 49%;
+}
+
+.plateau td .trace.trace-arrivee-h{
+	top:50%;
+}
+
+.plateau td .trace.trace-arrivee-b{
+	top:0;
+}
+
+.plateau td .trace.trace-blue.trace-d, .plateau td .trace.trace-blue.trace-g, .plateau td .trace.trace-blue.trace-arrivee-g, .plateau td .trace.trace-blue.trace-arrivee-d {
+	border-top: 2px dashed #2980b9;
+}
+
+.plateau td .trace.trace-blue.trace-h, .plateau td .trace.trace-blue.trace-b, .plateau td .trace.trace-blue.trace-arrivee-h, .plateau td .trace.trace-blue.trace-arrivee-b  {
+	border-left: 2px dashed #2980b9;
+}
+
+.plateau td .trace.trace-yellow.trace-d, .plateau td .trace.trace-yellow.trace-g, .plateau td .trace.trace-yellow.trace-arrivee-g, .plateau td .trace.trace-yellow.trace-arrivee-d  {
+	border-top: 2px dashed #f39c12;
+}
+
+.plateau td .trace.trace-yellow.trace-h, .plateau td .trace.trace-yellow.trace-b, .plateau td .trace.trace-yellow.trace-arrivee-h, .plateau td .trace.trace-yellow.trace-arrivee-b  {
+	border-left: 2px dashed #f39c12;
+}
+
+.plateau td .trace.trace-red.trace-d, .plateau td .trace.trace-red.trace-g, .plateau td .trace.trace-red.trace-arrivee-g, .plateau td .trace.trace-red.trace-arrivee-d  {
+	border-top: 2px dashed #c0392b;
+}
+
+.plateau td .trace.trace-red.trace-h, .plateau td .trace.trace-red.trace-b, .plateau td .trace.trace-red.trace-arrivee-h, .plateau td .trace.trace-red.trace-arrivee-b  {
+	border-left: 2px dashed #c0392b;
+}
+
+.plateau td .trace.trace-green.trace-d, .plateau td .trace.trace-green.trace-g, .plateau td .trace.trace-green.trace-arrivee-g, .plateau td .trace.trace-green.trace-arrivee-d  {
+	border-top: 2px dashed #27ae60;
+}
+
+.plateau td .trace.trace-green.trace-h, .plateau td .trace.trace-green.trace-b, .plateau td .trace.trace-green.trace-arrivee-h, .plateau td .trace.trace-green.trace-arrivee-b  {
+	border-left: 2px dashed #27ae60;
 }
 
 
@@ -115,39 +184,24 @@
 
 /* cibles */
 .plateau td.cible.blue {
-        background-color: #3498db;
+	background-color: #3498db;
 }
 .plateau td.cible.red {
-        background-color: #e74c3c;
+	background-color: #e74c3c;
 }
 .plateau td.cible.green {
-        background-color: #2ecc71;
+	background-color: #2ecc71;
 }
 .plateau td.cible.yellow {
-        background-color: #f1c40f;
+	background-color: #f1c40f;
 }
 
-/* fisheyes */
-#lesParties .plateau {
-	height: 112px;
-}
 
-#lesParties .plateau tr{
-	width: 112px;
-}
-
-#lesParties .plateau td{
-	width: 7px;
+#thumb .plateau td {
 	height: 7px;
 }
 
-#lesParties .plateau .robot{
+#thumb .plateau .robot {
 	width: 4px;
 	height: 4px;
-}
-
-#lesParties div{
-	width: 120px;
-	height: 120px;
-	float : initial;
 }

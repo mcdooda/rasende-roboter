@@ -8,39 +8,90 @@
 		<script src="js/util.js"></script>
 		<script src="js/jeu.js"></script>
 		<script src="js/logged.js"></script>
+		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/general.css" />
 		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/logged.css" />
 		<link rel="stylesheet" media="screen" type="text/css" title="hairy wookie" href="css/plateau.css" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 	</head>
 	<body onload="init()">
-		<section id="commandes-touch">
+		<section id="commandes-touch" class="touch-active">
 			<a href="#" id="bouton-touch" onclick="afficherMasquerInfosTouch();">
 				<span /><span /><span />
 			</a>
 		</section>
 		<section id="partie" />
-		<section id="infos">
+		<section id="commandes-jeu-touch" class="touch-active">
+			<section id="fleches">
+				<table>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><img src="img/fleche-h.png" alt="Haut" class="fleche h" /></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><img src="img/fleche-g.png" alt="Gauche" class="fleche g" /></td>
+							<td></td>
+							<td><img src="img/fleche-d.png" alt="Droite" class="fleche d" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><img src="img/fleche-b.png" alt="Bas" class="fleche b" /></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+			<section id="boutons">
+				<table>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><span class="bouton blue" /></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><span class="bouton green" /></td>
+							<td></td>
+							<td><span class="bouton red" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><span class="bouton yellow" /></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</section>
+		<section id="infos" class="touch-desactive">
 			<header>
 				<h1>Partie __IDGAME__ __STATE__</h1>
-				<p>Vous êtes connecté en tant que <span class="login">__LOGIN__</span></p>
 				<input id="login" type="hidden" value="__LOGIN__" />
 				<input id="idGame" type="hidden" value="__IDGAME__" />
 			</header>
 			<section>
-				<nav>
-					<ul id="lesParticipants" />
-				</nav>
-				<button onclick="recommencer(); masquerInfosTouch(); this.blur();">Recommencer</button>
+				<div class="panel">
+					<div class="panel-titre">
+						Joueurs connectés à cette partie :
+					</div>
+					<div class="panel-contenu">
+						<ul id="lesParticipants" />
+					</div>
+				</div>
+				<div id="bouton-recommencer">
+					<button onclick="recommencer(); masquerInfosTouch(); this.blur();">Recommencer la partie</button>
+				</div>
 				<br />
 				<p id="count">
 					Final count down: <span id="final-count-down"></span>
 				</p>
 				<p id="message"></p>
 			</section>
-			<footer>
-				<span class="astuce-clavier">
-					Actuce : Naviguez entre les robots avec la barre d'espace, et déplacez-les avec les touches directionnelles.
-				</span>
+			<footer class="touch-desactive">
+				Actuce :
+				Naviguez entre les robots avec la barre d'espace, et déplacez-les avec les touches directionnelles.
+				Utilisez la touche R pour recommencer.
 			</footer>
 		</section>
 	</body>

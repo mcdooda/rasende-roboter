@@ -11,6 +11,18 @@ var util = {
 			this.addClass(document.body, 'touch');
 		}
 	},
+	
+	// renvoie si la fonction de vibration est activee
+	isVibrationEnabled: function() {
+		return 'vibrate' in navigator;
+	},
+	
+	// vibre pendant une duree donnee (en ms)
+	vibrate: function(duration) {
+		if (this.isVibrationEnabled()) {
+			navigator.vibrate(duration);
+		}
+	},
 
 	// renvoie les classes d'un element
 	getClasses: function(element) {
@@ -119,6 +131,11 @@ var util = {
 	moveTo: function(element, newParent) {
 		this.detach(element);
 		newParent.appendChild(element);
+	},
+	
+	// retourne si le navigateur est chrome pour la trace
+	isChrome: function() {
+		return navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 	}
 
 };
