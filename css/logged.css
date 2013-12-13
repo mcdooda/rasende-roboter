@@ -192,3 +192,6 @@ footer {
 	background-color: #ecf0f1;
 }
 
+#compte-a-rebours, #compte-a-rebours-touch, #message, #message-touch {
+	display: none;
+}

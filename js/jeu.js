@@ -280,6 +280,7 @@ function envoyerProposition() {
 			var data = JSON.parse(this.responseText);
 			
 			var messageElem = document.getElementById('message');
+			var messageTouchElem = document.getElementById('message-touch');
 			switch(data.state) {
 				case 'INVALID_EMPTY':
 				case 'INVALID_MOVE':
@@ -293,6 +294,9 @@ function envoyerProposition() {
 						message = "Solution invalide"
 						
 					messageElem.innerHTML = message;
+					messageElem.style.display = 'block';
+					messageTouchElem.innerHTML = message;
+					messageTouchElem.style.display = 'block';
 					break;
 				case 'SUCCESS':
 					messageElem.className = 'info';
@@ -303,6 +307,8 @@ function envoyerProposition() {
 						message = "Proposition envoyée"
 						
 					messageElem.innerHTML = message;
+					messageElem.style.display = 'block';
+					messageTouchElem.style.display = 'block';
 					break;
 				default:
 					break;

@@ -31,7 +31,11 @@
 						</tr>
 						<tr>
 							<td><img src="img/fleche-g.png" alt="Gauche" class="fleche g" /></td>
-							<td></td>
+							<td>
+								<div id="compte-a-rebours-touch">
+									<span id="temps-touch"></span>
+								</div>
+							</td>
 							<td><img src="img/fleche-d.png" alt="Droite" class="fleche d" /></td>
 						</tr>
 						<tr>
@@ -52,7 +56,7 @@
 						</tr>
 						<tr>
 							<td><span class="bouton green" /></td>
-							<td></td>
+							<td><div id="message-touch"><img src="img/tick.png" /></div></td>
 							<td><span class="bouton red" /></td>
 						</tr>
 						<tr>
@@ -82,11 +86,12 @@
 				<div id="bouton-recommencer">
 					<button onclick="recommencer(); masquerInfosTouch(); this.blur();">Recommencer la partie</button>
 				</div>
-				<br />
-				<p id="count">
-					Final count down: <span id="final-count-down"></span>
-				</p>
-				<p id="message"></p>
+				<div class="touch-desactive">
+					<span id="compte-a-rebours">
+						Compte à rebours : <span id="temps"></span>
+					</span>
+					<p id="message"></p>
+				</div>
 			</section>
 			<footer class="touch-desactive">
 				Actuce :

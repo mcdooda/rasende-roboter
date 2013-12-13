@@ -39,16 +39,19 @@ function init() {
 			}
 		});
 	socket.on('FinalCountDown'	, function(data) {
-		document.getElementById('count').style.display = 'block';
+		document.getElementById('compte-a-rebours').style.display = 'block';
+		document.getElementById('compte-a-rebours-touch').style.display = 'block';
 		var ms   = data.FinalCountDown;
 		
 		var iv = setInterval(function() {
 			ms -= 1000;
 			if (ms <= 0) {
 				clearInterval(iv);
-				document.getElementById('final-count-down').innerHTML = 'time over';
+				document.getElementById('temps').innerHTML = 'Temps écoulé !';
+				document.getElementById('temps-touch').innerHTML = '0s';
 			} else {
-				document.getElementById('final-count-down').innerHTML = parseInt(ms / 1000) + 's';
+				document.getElementById('temps').innerHTML = parseInt(ms / 1000) + 's';
+				document.getElementById('temps-touch').innerHTML = parseInt(ms / 1000) + 's';
 			}
 		}, 1000);
 		
